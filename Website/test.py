@@ -12,9 +12,10 @@ app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
 
 
 sock = Sock(app)
+sock_progress = Sock(app)
 
 client_list = []
-client_list_test = []
+client_list_progress = []
 
 headerLink = 'index'
 
@@ -48,18 +49,10 @@ def running():
     # if finished -> index + headerLink = "index"
     return render_template('running.html')  
 
-@app.route('/progress')
-def send_progress():
-    # send the state for the progress bar
-    response = make_response('80%', 200)
-    response.mimetype = "text/plain"
-    return response
-
 
 @sock.route('/image')
 def clock(ws):
     client_list.append(ws)
-    print(client_list)
     while True:
         data = ws.receive()
         if data == 'stop':
@@ -74,18 +67,44 @@ def send_img():
         for client in clients:
             try:
                 client.send(json.dumps({
-                    'text': 'http://127.0.0.1:5000/static/images/Test_Images/Test.png'
+                    'img_src': 'http://127.0.0.1:5000/static/images/Test_Images/Test.png'
                 }))
             except:
-                print("failed")
+                print("failed to send img src")
                 client_list.remove(client)
 
-# @sock.route('/testing')
-# def clock(ws):
-#     client_list_test.append(ws)
+
+@sock_progress.route('/progress')
+def progress(ws):
+    client_list_progress.append(ws)
+    while True:
+        data = ws.receive()
+        if data == 'stop':
+            break
+    client_list_progress.remove(ws)
+
+def send_progress(progress):
+
+    # noch weg machen weil die Funktion später vom main skript aufgerufen wird
+    while True:
+        time.sleep(1)
+
+        clients = client_list_progress.copy()
+        for client in clients:
+            try:
+                client.send(json.dumps({'progress' : progress}))
+            except:
+                print("failed to send progress")
+                client_list_progress.remove(client)
+
 
 if __name__ == '__main__':
     t = threading.Thread(target=send_img)
     t.daemon = True
     t.start()
+
+    t2 = threading.Thread(target=send_progress, args=['10%'])
+    t2.daemon = True
+    t2.start()
+
     app.run()

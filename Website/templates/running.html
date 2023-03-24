@@ -26,18 +26,21 @@
     </div>
 
 <script>
-    const socket_time = new WebSocket('ws://' + location.host + '/image');
+    const socket_img = new WebSocket('ws://' + location.host + '/image');
     console.log("connected ws")
-    socket_time.addEventListener('message', ev => {
+    socket_img.addEventListener('message', ev => {
         msg = JSON.parse(ev.data);
-        console.log(msg.text)
+        // console.log(msg.img_src)
         var pic = document.getElementById('refresh_img');
-        pic.src = msg.text;
+        pic.src = msg.img_src;
     });
-    // function set_progress(value) {
-    //     const progressBar = document.getElementById("progress-bar-fill");
-    //     progressBar.style.width = value;
-    // }
+
+    const socket_progress = new WebSocket('ws://' + location.host + '/progress');
+    console.log("connected ws")
+    socket_progress.addEventListener('message', ev => {
+        msg = JSON.parse(ev.data);
+        // console.log(msg.progress)
+    });
 </script>
 
 {% endblock %}
