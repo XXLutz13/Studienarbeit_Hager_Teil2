@@ -4,7 +4,8 @@ import json
 import time, datetime
 import threading
 import secrets
-from flask import current_app
+import base64
+import cv2
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -66,6 +67,10 @@ def send_img():
         clients = client_list.copy()
         for client in clients:
             try:
+                img = cv2.imread("Test.png")
+                img_base64 = base64.standard_b64encode(img)
+                img_base64_string = img_base64.decode("ascii")
+                
                 client.send(json.dumps({
                     'img_src': 'http://127.0.0.1:5000/static/images/Test_Images/Test.png'
                 }))
