@@ -103,7 +103,7 @@ if __name__ == '__main__':
     t.daemon = True
     t.start()
 
-    t2 = threading.Thread(target=send_progress, args=['10%'])
+    t2 = threading.Thread(target=send_progress, args=['77%'])
     t2.daemon = True
     t2.start()
 

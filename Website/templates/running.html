@@ -40,6 +40,8 @@
     socket_progress.addEventListener('message', ev => {
         msg = JSON.parse(ev.data);
         // console.log(msg.progress)
+        var progress_bar = document.getElementById('progress-bar-fill');
+        progress_bar.style = "width:" + msg.progress + ";";
     });
 </script>
 
