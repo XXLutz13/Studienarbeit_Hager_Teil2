@@ -32,6 +32,7 @@
         msg = JSON.parse(ev.data);
         // console.log(msg.img_src)
         var pic = document.getElementById('refresh_img');
+        console.log(pic.src)
         pic.src = msg.img_src;
     });
 

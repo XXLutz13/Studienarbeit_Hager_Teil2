@@ -67,12 +67,15 @@ def send_img():
         clients = client_list.copy()
         for client in clients:
             try:
-                img = cv2.imread("Test.png")
-                img_base64 = base64.standard_b64encode(img)
-                img_base64_string = img_base64.decode("ascii")
-                
+                image = cv2.imread("green.png")
+                print(type(image))
+                # Encode the image data as base64
+                image_data = image.tobytes()
+                image_base64 = base64.b64encode(image_data).decode('utf-8')
+                img_data_url = f'data:image/png;base64,{image_base64}'
+                # 'http://127.0.0.1:5000/static/images/Test_Images/Test.png'
                 client.send(json.dumps({
-                    'img_src': 'http://127.0.0.1:5000/static/images/Test_Images/Test.png'
+                    'img_src': img_data_url
                 }))
             except:
                 print("failed to send img src")
@@ -93,7 +96,7 @@ def send_progress(progress):
     # noch weg machen weil die Funktion später vom main skript aufgerufen wird
     while True:
         time.sleep(1)
-
+        
         clients = client_list_progress.copy()
         for client in clients:
             try:
