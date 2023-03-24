@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="{{ url_for('static', filename= 'css/style.css') }}" type="text/css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename= 'images/favicon.ico') }}">
+    <title>{% block title %} {% endblock %}</title>
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    rel="stylesheet"/>
+
+</head>
+<body>
+    <header class="page-header">
+        <div class="container">
+                <a href="https://www.mosbach.dhbw.de/" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename= 'images/dhbw_mosbach_logo.png') }}" height="60px" class="dhbw_img">
+                </a>
+
+            <ul class="header-item">
+                {% block headerLink %} 
+
+                {% endblock %}
+            </ul>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %} 
+        <div class="wrapper-error">
+            <div class="card">
+                <div class="icon"><i class="fas fa-times-circle"></i></div>
+                <div class="subject">
+                    <h3>Error</h3>
+                    <p>{{ message }}</p>
+                </div>
+                <div class="icon-times">
+                    <a href="{{ url_for('index') }}"><i class="fas fa-times"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% block content %} 
+    
+    {% endblock %}
+    
+</body>
+</html>

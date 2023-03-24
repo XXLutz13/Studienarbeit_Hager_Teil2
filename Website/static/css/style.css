@@ -1,0 +1,249 @@
+
+:root {
+    --background: #2c3e50;
+    --headercolor: #ffffff;
+    --dhbw: #E30613;
+    --warning: #f2a600;
+    --success: #12c99b;
+    --error: #E30613;
+}
+
+body {
+    background: var(--background);
+    margin: 0;
+    padding: 0;
+    font-family: 'Oxygen', sans-serif;
+}
+
+.page-header{
+    background-color: var(--headercolor);
+}
+
+
+/* Navigation */
+.navigation {
+    box-sizing: border-box;
+    /* background-color: #3587A4; */
+    background-color: var(--headercolor);
+    overflow: auto;
+    padding: 18px 50px;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+.header-li {
+    display: inline-block;
+    font-family: 'Oxygen', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin: 0;
+    padding: 20px 18px 10px 18px;
+    text-transform: uppercase;
+}
+
+.header-item {
+    height: 48px;
+}
+
+.dhbw_img {
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+.active {
+    color: var(--dhbw);
+    display: inline-block;
+    font-family: 'Oxygen', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin: 0;
+    padding: 20px 18px 10px 18px;
+    text-transform: uppercase;
+}
+
+a:hover {
+    color: var(--dhbw);
+}
+
+.header-link {
+    display: block;
+    white-space: nowrap;
+    font-style: inherit;
+    font-weight: inherit;
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+
+.video-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1%;
+}
+
+.module-border-wrap {
+    width: 450px;
+    padding: 1rem;
+    position: relative;
+    background: linear-gradient(to right, #c0392b, #8e44ad);
+    padding: 7px;
+}
+
+#overlay {
+    width: 60%;
+    margin: 3% auto;
+    height: 80%;
+    background-color: #95a5a6;
+    border-radius: 10px;
+}
+
+form hr {
+    width: 30%;
+}
+
+.heading-line {
+    width: 45%;
+}
+
+.form-heading {
+    font-family: 'Oxygen', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.dataLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* error -> source: https://codepen.io/alvarotrigo/pen/OJELWoM */
+.wrapper-error {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+.wrapper-error .card {
+    width: 650px;
+    height: 100px;
+    background-color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-left: 10px solid var(--error);
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.wrapper-error .card .subject {
+    margin-right: 180px;
+    font-size: 20px;
+}
+.wrapper-error .card .subject p {
+    color: #909092;
+}
+.wrapper-error .card .icon {
+    font-size: 40px;
+    color: var(--error);
+}
+.wrapper-error .card .icon-times {
+    font-size: 28px;
+    color: #c3c2c7;
+    cursor: pointer;
+}
+
+/* running page */
+.running_container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.running_container .card {
+    width: 650px;
+    height: 150px;
+    background-color: var(--headercolor);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 5px 5px 10px;
+}
+.running_container .card h3 {
+    font-size: 28px;
+    text-align: center;
+}
+
+/* progress bar */
+.wrapper {
+    width: 500px;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, .2);
+}
+
+.progress-bar-fill {
+    display: block;
+    height: 22px;
+    background-color: #659cef;
+    border-radius: 10px;
+    
+    transition: width 500ms ease-in-out;
+}   
+
+/* about page */
+.about-container {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.about-container .card {
+    width: 60%;
+    height: 350px;
+    background-color: var(--headercolor);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 5px 5px 10px;
+}
+.betreuer {
+    display: inline-block;
+}
+.betreuer .list  {
+    line-height: 1.5em;
+    margin: 5px 0 15px;
+    padding: 0;
+}
+.betreuer .line::before {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 8px;
+    display: block;
+    border-top: 2px solid #f9dd94;
+}
