@@ -6,6 +6,7 @@ import threading
 import secrets
 import base64
 import cv2
+from PIL import Image
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -68,7 +69,6 @@ def send_img():
         for client in clients:
             try:
                 image = cv2.imread("green.png")
-                print(type(image))
                 # Encode the image data as base64
                 image_data = image.tobytes()
                 image_base64 = base64.b64encode(image_data).decode('utf-8')
