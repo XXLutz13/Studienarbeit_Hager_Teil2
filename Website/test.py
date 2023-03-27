@@ -7,21 +7,27 @@ import secrets
 import base64
 import cv2
 import os
+# from Studienarbeit_Online import Studienarbeit_Hager
 
+# create flask app
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
 
-
+# create websocket
 sock = Sock(app)
 sock_progress = Sock(app)
 
+# global variables
 client_list = []
 client_list_progress = []
 
 headerLink = 'index'
+active = False
 
-
+#----------------------------------------------------------------------------------------------------------------
+#   index page
+#----------------------------------------------------------------------------------------------------------------
 @app.route('/', methods=('GET', 'POST'))
 def index():
     if request.method == 'POST':
@@ -34,24 +40,40 @@ def index():
         else:  
             print(dataLabel)
             print(numImages)
+            global active
+            active = True
             return redirect(url_for('running'))
             # start backend routine
-        
-    return render_template('index.html')
+    if active:
+        return redirect(url_for('running'))
+    else:
+        return render_template('index.html')
 
+#----------------------------------------------------------------------------------------------------------------
+#   about page
+#----------------------------------------------------------------------------------------------------------------
 @app.route('/about', methods=('GET','POST'))
 def about(): 
     return render_template('about.html', link=headerLink) 
 
+#----------------------------------------------------------------------------------------------------------------
+#   running page
+#----------------------------------------------------------------------------------------------------------------
 @app.route('/runnnig', methods=('GET','POST')) 
 def running():
     global headerLink
     headerLink = 'running'
     # counter an bildern oder bool running einführen im main script -> wenn fertig, dann reder Template index
     # if finished -> index + headerLink = "index"
-    return render_template('running.html')  
+    global active
+    if active:
+        return render_template('running.html')  
+    else:
+        return redirect(url_for('index'))
 
-
+#----------------------------------------------------------------------------------------------------------------
+#   websocket for sending image 
+#----------------------------------------------------------------------------------------------------------------
 @sock.route('/image')
 def clock(ws):
     client_list.append(ws)
@@ -62,7 +84,6 @@ def clock(ws):
     client_list.remove(ws)
 
 def send_img():
-    # link = url_for('static', filename= 'images/Test_Images/Test.png') -> Working outside of application context.
     while True:
         time.sleep(1) # -> muss nicht zyklisch aufgerufen werden, sonder nur wenn ein neues Bild gemacht wurde
         clients = client_list.copy()
@@ -84,7 +105,9 @@ def send_img():
                 print("failed to send img src")
                 client_list.remove(client)
 
-
+#----------------------------------------------------------------------------------------------------------------
+#   websocket for sending routine progress 
+#----------------------------------------------------------------------------------------------------------------
 @sock_progress.route('/progress')
 def progress(ws):
     client_list_progress.append(ws)
@@ -110,6 +133,7 @@ def send_progress(progress):
 
 
 if __name__ == '__main__':
+    # no need for threads in final app -> remove while True + sleep!
     t = threading.Thread(target=send_img)
     t.daemon = True
     t.start()
