@@ -1,12 +1,12 @@
-from flask import Flask, render_template, flash, request, make_response, send_file, redirect, url_for
+from flask import Flask, render_template, flash, request, make_response, send_file, redirect, url_for, current_app
 from flask_sock import Sock
 import json
-import time, datetime
+import time
 import threading
 import secrets
 import base64
 import cv2
-from PIL import Image
+import os
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -68,15 +68,18 @@ def send_img():
         clients = client_list.copy()
         for client in clients:
             try:
-                image = cv2.imread("green.png")
-                # Encode the image data as base64
+                with app.app_context():
+                    root_path = current_app.root_path
+
+                # Load the image data
+                image = cv2.imread(os.path.join(root_path, 'Test.png'))
                 image_data = image.tobytes()
+                # Encode the image data as base64
                 image_base64 = base64.b64encode(image_data).decode('utf-8')
-                img_data_url = f'data:image/png;base64,{image_base64}'
-                # 'http://127.0.0.1:5000/static/images/Test_Images/Test.png'
-                client.send(json.dumps({
-                    'img_src': img_data_url
-                }))
+                # Generate a data URL for the image
+                data_url = f'data:image/png;base64,{image_base64}'
+
+                client.send(json.dumps({'img_src': data_url}))
             except:
                 print("failed to send img src")
                 client_list.remove(client)

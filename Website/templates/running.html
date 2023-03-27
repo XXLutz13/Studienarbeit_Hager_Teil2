@@ -11,6 +11,9 @@
     <div class="video-img">
         <div>
             <img id="refresh_img" class="module-border-wrap" src="{{ url_for('static', filename= 'images/Test_Images/rot.png') }}">
+            <!-- <img id="refresh_img" class="module-border-wrap" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA
+            AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNB
+            AAO9TXL0Y4OHwAAAABJRU5ErkJggg=="> -->
         </div>
     </div>
 
@@ -30,9 +33,8 @@
     console.log("connected ws")
     socket_img.addEventListener('message', ev => {
         msg = JSON.parse(ev.data);
-        // console.log(msg.img_src)
         var pic = document.getElementById('refresh_img');
-        console.log(pic.src)
+        console.log(pic.src);
         pic.src = msg.img_src;
     });
 
