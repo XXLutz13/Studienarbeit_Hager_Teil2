@@ -93,10 +93,9 @@ def send_img():
                     root_path = current_app.root_path
 
                 # Load the image data
-                image = cv2.imread(os.path.join(root_path, 'Test.png'))
-                image_data = image.tobytes()
+                image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
                 # Encode the image data as base64
-                image_base64 = base64.b64encode(image_data).decode('utf-8')
+                image_base64 = base64.b64encode(image).decode('ascii')
                 # Generate a data URL for the image
                 data_url = f'data:image/png;base64,{image_base64}'
 
@@ -142,4 +141,4 @@ if __name__ == '__main__':
     t2.daemon = True
     t2.start()
 
-    app.run()
+    app.run(host='0.0.0.0', port=5000) # threaded?

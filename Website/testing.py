@@ -1,27 +1,15 @@
+import base64
 import cv2
-from flask import url_for, Flask, current_app
-import secrets
-import threading
-import time
-import os
 
+with open("Test.png", "rb") as img_file:
+    image = img_file.read()
+    b64_string = base64.b64encode(image)
 
-app = Flask(__name__)
-app.secret_key = secrets.token_hex(16)
-app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
+imagecv2 = cv2.imread('Test.png')
+print(type(imagecv2))
+imagecv2_bytes = imagecv2.tobytes()
+print(type(imagecv2_bytes))
 
-def send_img():
-    time.sleep(1)
-    with app.app_context():
-        root_path = current_app.root_path
-    path = os.path.join(root_path, 'Test_green.png')
-    print(path)
-    image = cv2.imread(path)
-    #image = cv2.imread("Test_green.png")
-    print(type(image))
-
-if __name__ == '__main__':
-    t = threading.Thread(target=send_img)
-    t.daemon = True
-    t.start()
-    app.run()
+b64_string2 = base64.b64encode(imagecv2_bytes)
+print(b64_string2)
+print(type(b64_string2))
