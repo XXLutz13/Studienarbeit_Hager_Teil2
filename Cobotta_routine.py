@@ -52,7 +52,7 @@ class COBOTTA_ROUTINE:
 
             # calculate arrays with roboter coordinates
             Objekt_cords = [190, -40, 120]
-            cords, motorStepps = coordinates(cls.num_images, Objekt_cords)
+            cls.cords, cls.motorStepps = coordinates(cls.num_images, Objekt_cords)
 
             
         return cls._instance
