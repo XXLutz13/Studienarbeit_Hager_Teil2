@@ -13,3 +13,4 @@ print(type(imagecv2_bytes))
 b64_string2 = base64.b64encode(imagecv2_bytes)
 print(b64_string2)
 print(type(b64_string2))
+
