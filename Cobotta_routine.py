@@ -45,6 +45,15 @@ class COBOTTA_ROUTINE:
             # open camera connection
             cls.CAM = CAMERA(client=cls.client, IP='10.50.12.88')
 
+            # initialize variable access handlers 
+            cls.I90_access = cls.client.controller_getvariable(cls.RC8, "I90", "")   # Object for variable access
+            cls.I91_access = cls.client.controller_getvariable(cls.RC8, "I91", "")   # Object for variable access
+            cls.P90_access = cls.client.controller_getvariable(cls.RC8, "P90", "")   # Object to post new Coordinates
+
+            # calculate arrays with roboter coordinates
+            Objekt_cords = [190, -40, 120]
+            cords, motorStepps = coordinates(cls.num_images, Objekt_cords)
+
             
         return cls._instance
     
