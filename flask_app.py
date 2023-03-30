@@ -21,9 +21,11 @@ sock_progress = Sock(app)
 # global variables
 client_list = []
 client_list_progress = []
-
+dataLabel = ""
+numImages = 0
 headerLink = 'index'
 active = False
+routine_active = False
 
 #----------------------------------------------------------------------------------------------------------------
 #   index page
@@ -31,6 +33,8 @@ active = False
 @app.route('/', methods=('GET', 'POST'))
 def index():
     if request.method == 'POST':
+        global dataLabel
+        global numImages
         dataLabel = request.form['dataLabel']
         numImages = request.form['numImages']
 
@@ -43,7 +47,7 @@ def index():
             global active
             active = True
             return redirect(url_for('running'))
-            # start backend routine
+            
     if active:
         return redirect(url_for('running'))
     else:
@@ -65,6 +69,16 @@ def running():
     headerLink = 'running'
     # counter an bildern oder bool running einführen im main script -> wenn fertig, dann reder Template index
     # if finished -> index + headerLink = "index"
+    # evtl. import send_img und send_progress im Backend script? -> keine Datenübergabe nötig
+    # if not routine_active:
+    # start backend routine
+    # backend = COBOTTA_ROUTINE(dataLabel, numImages)
+    # routine = threading.Thread(target=backend.start_routine)
+    # routine.daemon = True
+    # routine.start()
+
+    print("in running")
+
     global active
     if active:
         return render_template('running.html')  

@@ -127,7 +127,10 @@ class COBOTTA_ROUTINE:
                 logging.error("faild to capture image")
                 raise RuntimeError("faild to capture image")
             
-
+    #----------------------------------------------------------------------------------------------------------------
+    #   main routine function
+    #   return val: Finished / Failed
+    #----------------------------------------------------------------------------------------------------------------
     def start_routine(self):
         try:
             for rotation in range(8):
@@ -159,9 +162,11 @@ class COBOTTA_ROUTINE:
                 stepper_worker(self.kit.stepper1, self.motorStepps[rotation], stepper.FORWARD)   # move stepper motor 
                 self.cords.reverse()
 
+            return "Finished"
+
         except:
             logging.error("exception in routine")
-            self.__del__()
+            return "Failed"
 
 
     def __del__(self):
