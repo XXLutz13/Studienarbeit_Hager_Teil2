@@ -52,9 +52,8 @@ class COBOTTA_ROUTINE:
 
             # calculate arrays with roboter coordinates
             Objekt_cords = [190, -40, 120]
-            cls.cords, cls.motorStepps = coordinates(cls.num_images, Objekt_cords)
-
-            
+            cls.cords, cls.motorStepps = coordinates(cls.num_images, Objekt_cords) 
+    
         return cls._instance
     
 
@@ -91,6 +90,52 @@ class COBOTTA_ROUTINE:
 
         except:
             raise RuntimeError("can't connect to Cobotta")
+        
+
+    #----------------------------------------------------------------------------------------------------------------
+    #   cobotta camera class
+    #   Atributes: client = Cobotta connection
+    #              IP = camera IP-adress
+    #----------------------------------------------------------------------------------------------------------------
+    class CAMERA:
+        def __init__(self, client, IP):
+            try:
+                # Get Camera Handler
+                self.camera_handler = client.controller_connect('N10-W02', 'CaoProv.Canon.N10-W02', '', 'Conn=eth:'+ IP +', Timeout=3000')
+                self.client = client
+                # Get Variable ID
+                self.variable_handler = self.client.controller_getvariable(self.camera_handler, 'IMAGE')
+            except:
+                raise RuntimeError("can't connect camera")
+
+        def OneShot(self, name):
+            try:
+                # take and export image from Canon camera 
+                self.client.controller_execute(self.camera_handler, 'OneShotFocus', '')
+                image_buff = self.client.variable_getvalue(self.variable_handler)
+
+                cv_image = convert_image(image_buff)    # -> check img formate -> if usable byte, then directly encode to base64 
+                # save image to file
+                image_name = 'Images/{}{}.png'
+                cv2.imwrite(image_name.format(datetime.now().strftime("%Y%m%d_%H:%M:%S"), name), cv_image)
+            except:
+                raise RuntimeError("faild to capture image")
+            
+
+    def __del__(self):
+        # finish script on cobotta
+        I90 = 0   # new value
+        self.client.variable_putvalue(self.I90_access, I90) # write I90 value
+
+        self.client.variable_release(self.I90_access) # close connection
+        self.client.variable_release(self.I91_access) # close connection
+        self.client.variable_release(self.P90_access) # close connection
+        self.client.service_stop() # stop bcapclient
+
+        self.kit.stepper1.release()
+
+        raise Exception("service stoped!")
+
 
 
 #----------------------------------------------------------------------------------------------------------------
