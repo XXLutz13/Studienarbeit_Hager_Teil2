@@ -43,7 +43,7 @@ class COBOTTA_ROUTINE:
             # establish Cobotta connection
             cls.client, cls.RC8 = COBOTTA_ROUTINE.connect_Cobotta('10.50.12.87')
             # open camera connection
-            cls.CAM = CAMERA(client=cls.client, IP='10.50.12.88')
+            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
 
             # initialize variable access handlers 
             cls.I90_access = cls.client.controller_getvariable(cls.RC8, "I90", "")   # Object for variable access
@@ -53,7 +53,9 @@ class COBOTTA_ROUTINE:
             # calculate arrays with roboter coordinates
             Objekt_cords = [190, -40, 120]
             cls.cords, cls.motorStepps = coordinates(cls.num_images, Objekt_cords) 
-    
+
+            logging.info("created COBOTTA_ROUTINE object")
+
         return cls._instance
     
 
@@ -85,10 +87,11 @@ class COBOTTA_ROUTINE:
             # Connect to RC8 (RC8(VRC)provider)
             RC8 = client.controller_connect(Name, Provider, Machine, Option)
 
-            print("Cobotta connected")
+            logging.info("Cobotta connected")
             return client, RC8
-
+            
         except:
+            logging.error("can't connect to Cobotta")
             raise RuntimeError("can't connect to Cobotta")
         
 
@@ -105,7 +108,9 @@ class COBOTTA_ROUTINE:
                 self.client = client
                 # Get Variable ID
                 self.variable_handler = self.client.controller_getvariable(self.camera_handler, 'IMAGE')
+                logging.info("connected to camera")
             except:
+                logging.error("can't connect camera")
                 raise RuntimeError("can't connect camera")
 
         def OneShot(self, name):
@@ -119,8 +124,45 @@ class COBOTTA_ROUTINE:
                 image_name = 'Images/{}{}.png'
                 cv2.imwrite(image_name.format(datetime.now().strftime("%Y%m%d_%H:%M:%S"), name), cv_image)
             except:
+                logging.error("faild to capture image")
                 raise RuntimeError("faild to capture image")
             
+
+    def start_routine(self):
+        try:
+            for rotation in range(8):
+                for point in self.cords:
+                    
+                    new_coords = point
+                    self.client.variable_putvalue(self.P90_access, new_coords)    # write new coordinates
+
+                    # acctivate script on cobotta
+                    I90 = 1   # new value
+                    self.client.variable_putvalue(self.I90_access, I90) # write I90 value
+
+                    ready = 0
+                    # wait for robot to set I91
+                    while not ready:
+                        ready = self.client.variable_getvalue(self.I91_access)  # read I91
+                        time.sleep(0.1)
+
+                    # capturing image
+                    self.CAM.OneShot(self.name)
+
+                    # # evtl delay?
+                    # time.sleep(2)
+
+                    # finish script on cobotta
+                    I90 = 0   # new value
+                    self.client.variable_putvalue(self.I90_access, I90) # write I90 value
+
+                stepper_worker(self.kit.stepper1, self.motorStepps[rotation], stepper.FORWARD)   # move stepper motor 
+                self.cords.reverse()
+
+        except:
+            logging.error("exception in routine")
+            self.__del__()
+
 
     def __del__(self):
         # finish script on cobotta
@@ -134,8 +176,7 @@ class COBOTTA_ROUTINE:
 
         self.kit.stepper1.release()
 
-        raise Exception("service stoped!")
-
+        logging.info("service stoped!")
 
 
 #----------------------------------------------------------------------------------------------------------------
