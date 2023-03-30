@@ -7,7 +7,7 @@ import secrets
 import base64
 import cv2
 import os
-# from Studienarbeit_Online import Studienarbeit_Hager
+# from Cobotta_routine import COBOTTA_ROUTINE
 
 # create flask app
 app = Flask(__name__)
