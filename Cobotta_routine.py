@@ -45,18 +45,13 @@ class COBOTTA_ROUTINE:
             # open camera connection
             cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
 
-            # initialize variable access handlers 
-            cls.I90_access = cls.client.controller_getvariable(cls.RC8, "I90", "")   # Object for variable access
-            cls.I91_access = cls.client.controller_getvariable(cls.RC8, "I91", "")   # Object for variable access
-            cls.P90_access = cls.client.controller_getvariable(cls.RC8, "P90", "")   # Object to post new Coordinates
-
             # calculate arrays with roboter coordinates
             Objekt_cords = [190, -40, 120]
             cls.cords, cls.motorStepps = coordinates(cls.num_images, Objekt_cords) 
 
             logging.info("created COBOTTA_ROUTINE object")
 
-        return cls._instance
+        return cls._instance, cls.cords, cls.motorStepps, cls.CAM
     
 
     #----------------------------------------------------------------------------------------------------------------
@@ -95,6 +90,29 @@ class COBOTTA_ROUTINE:
             raise RuntimeError("can't connect to Cobotta")
         
 
+    def get_variable_handler(self, id):
+        try:
+            handler = self.client.controller_getvariable(self.RC8, id, "")
+            return handler
+        except:
+            logging.error("faild to get handler")
+            raise RuntimeError("failed to get handler")
+    
+    def write_value(self, handler, value):
+        try:
+            self.client.variable_putvalue(handler, value)
+        except:
+            logging.error("faild to write value")
+            raise RuntimeError("faild to write value")
+
+    def read_value(self, handler):
+        try:
+            value = self.client.variable_getvalue(handler)
+            return value
+        except:
+            logging.error("faild to read value")
+            raise RuntimeError("faild to read value")
+
     #----------------------------------------------------------------------------------------------------------------
     #   cobotta camera class
     #   Atributes: client = Cobotta connection
@@ -123,51 +141,17 @@ class COBOTTA_ROUTINE:
                 # save image to file
                 image_name = 'Images/{}{}.png'
                 cv2.imwrite(image_name.format(datetime.now().strftime("%Y%m%d_%H:%M:%S"), name), cv_image)
+                return image_buff
             except:
                 logging.error("faild to capture image")
                 raise RuntimeError("faild to capture image")
             
-    #----------------------------------------------------------------------------------------------------------------
-    #   main routine function
-    #   return val: Finished / Failed
-    #----------------------------------------------------------------------------------------------------------------
-    def start_routine(self):
-        try:
-            for rotation in range(8):
-                for point in self.cords:
-                    
-                    new_coords = point
-                    self.client.variable_putvalue(self.P90_access, new_coords)    # write new coordinates
 
-                    # acctivate script on cobotta
-                    I90 = 1   # new value
-                    self.client.variable_putvalue(self.I90_access, I90) # write I90 value
-
-                    ready = 0
-                    # wait for robot to set I91
-                    while not ready:
-                        ready = self.client.variable_getvalue(self.I91_access)  # read I91
-                        time.sleep(0.1)
-
-                    # capturing image
-                    self.CAM.OneShot(self.name)
-
-                    # # evtl delay?
-                    # time.sleep(2)
-
-                    # finish script on cobotta
-                    I90 = 0   # new value
-                    self.client.variable_putvalue(self.I90_access, I90) # write I90 value
-
-                stepper_worker(self.kit.stepper1, self.motorStepps[rotation], stepper.FORWARD)   # move stepper motor 
-                self.cords.reverse()
-
-            return "Finished"
-
-        except:
-            logging.error("exception in routine")
-            return "Failed"
-
+    # moves stepper motor
+    def stepper_worker(self, numsteps, direction):
+        for x in range(numsteps):
+            self.kit.onestep(direction=direction)
+            
 
     def __del__(self):
         # finish script on cobotta
@@ -233,7 +217,3 @@ def convert_image(img):
 
     return resized
 
-# moves stepper motor
-def stepper_worker(stepper, numsteps, direction):
-    for x in range(numsteps):
-        stepper.onestep(direction=direction)

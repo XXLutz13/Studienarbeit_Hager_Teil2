@@ -7,7 +7,7 @@ import secrets
 import base64
 import cv2
 import os
-# from Cobotta_routine import COBOTTA_ROUTINE
+from Cobotta_routine import COBOTTA_ROUTINE
 
 # create flask app
 app = Flask(__name__)
@@ -67,20 +67,16 @@ def about():
 def running():
     global headerLink
     headerLink = 'running'
-    # counter an bildern oder bool running einführen im main script -> wenn fertig, dann reder Template index
     # if finished -> index + headerLink = "index"
-    # evtl. import send_img und send_progress im Backend script? -> keine Datenübergabe nötig
-    # if not routine_active:
+    if not routine_active:
     # start backend routine
-    # backend = COBOTTA_ROUTINE(dataLabel, numImages)
-    # routine = threading.Thread(target=backend.start_routine)
-    # routine.daemon = True
-    # routine.start()
+        global routine_active
+        routine_active = True
+        routine = threading.Thread(target=start_routine)
+        routine.daemon = True
+        routine.start()
 
-    print("in running")
-
-    global active
-    if active:
+    if routine_active:
         return render_template('running.html')  
     else:
         return redirect(url_for('index'))
@@ -98,25 +94,23 @@ def clock(ws):
     client_list.remove(ws)
 
 def send_img():
-    while True:
-        time.sleep(1) # -> muss nicht zyklisch aufgerufen werden, sonder nur wenn ein neues Bild gemacht wurde
-        clients = client_list.copy()
-        for client in clients:
-            try:
-                with app.app_context():
-                    root_path = current_app.root_path
+    clients = client_list.copy()
+    for client in clients:
+        try:
+            with app.app_context():
+                root_path = current_app.root_path
 
-                # Load the image data
-                image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
-                # Encode the image data as base64
-                image_base64 = base64.b64encode(image).decode('ascii')
-                # Generate a data URL for the image
-                data_url = f'data:image/png;base64,{image_base64}'
+            # Load the image data
+            image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
+            # Encode the image data as base64
+            image_base64 = base64.b64encode(image).decode('ascii')
+            # Generate a data URL for the image
+            data_url = f'data:image/png;base64,{image_base64}'
 
-                client.send(json.dumps({'img_src': data_url}))
-            except:
-                print("failed to send img src")
-                client_list.remove(client)
+            client.send(json.dumps({'img_src': data_url}))
+        except:
+            print("failed to send img src")
+            client_list.remove(client)
 
 #----------------------------------------------------------------------------------------------------------------
 #   websocket for sending routine progress 
@@ -131,28 +125,78 @@ def progress(ws):
     client_list_progress.remove(ws)
 
 def send_progress(progress):
+    clients = client_list_progress.copy()
+    for client in clients:
+        try:
+            client.send(json.dumps({'progress' : progress}))
+        except:
+            print("failed to send progress")
+            client_list_progress.remove(client)
 
-    # noch weg machen weil die Funktion später vom main skript aufgerufen wird
-    while True:
-        time.sleep(1)
-        
-        clients = client_list_progress.copy()
-        for client in clients:
-            try:
-                client.send(json.dumps({'progress' : progress}))
-            except:
-                print("failed to send progress")
-                client_list_progress.remove(client)
+
+#----------------------------------------------------------------------------------------------------------------
+#   main routine function
+#   return val: Finished / Failed
+#               progress (img_nun/total images in %)
+#
+#   ! function is blocking => use separate thread !              
+#----------------------------------------------------------------------------------------------------------------
+def start_routine():
+    backend, cords, motorStepps, cam = COBOTTA_ROUTINE(dataLabel, numImages)
+    # initialize variable access handlers 
+    I90_access = backend.get_variable_handler("I90")    # Object for variable access
+    I91_access = backend.get_variable_handler("I91")    # Object for variable access
+    P90_access = backend.get_variable_handler("P90")    # Object to post new Coordinates
+
+    try:
+        img_counter = 0
+        for rotation in range(8):
+            for point in cords:
+                
+                new_coords = point
+                backend.write_value(P90_access, new_coords)    # write new coordinates
+
+                # acctivate script on cobotta
+                I90 = 1   # new value
+                backend.write_value(I90_access, I90) # write I90 value
+
+                ready = 0
+                # wait for robot to set I91
+                while not ready:
+                    ready = backend.read_value(I91_access)  # read I91
+                    time.sleep(0.1)
+
+                # capturing image
+                img = cam.OneShot(backend, dataLabel)   # poss. self parameter not needed
+                print(type(img))
+                send_img()
+                img_counter = img_counter + 1
+                # send progress in %
+                progress = f"{(img_counter/numImages)*100}%"
+                send_progress(progress=progress)
+                # # evtl delay?
+                # time.sleep(2)
+
+                # finish script on cobotta
+                I90 = 0   # new value
+                backend.write_value(I90_access, I90) # write I90 value
+
+            backend.stepper_worker(motorStepps[rotation], stepper.FORWARD)   # move stepper motor 
+            cords.reverse()
+            print("reversed cords")
+
+        global routine_active
+        routine_active = False
+        return "Finished"
+
+    except:
+        return "Failed"
+
 
 
 if __name__ == '__main__':
-    # no need for threads in final app -> remove while True + sleep!
-    t = threading.Thread(target=send_img)
-    t.daemon = True
-    t.start()
 
-    t2 = threading.Thread(target=send_progress, args=['77%'])
-    t2.daemon = True
-    t2.start()
+    send_img()
+    send_progress(progress="0%")
 
     app.run(host='0.0.0.0', port=5000) # threaded?
