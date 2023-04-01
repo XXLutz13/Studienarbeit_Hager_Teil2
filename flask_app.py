@@ -143,10 +143,12 @@ def send_progress(progress):
 #----------------------------------------------------------------------------------------------------------------
 def start_routine():
     backend, cords, motorStepps, cam = COBOTTA_ROUTINE(dataLabel, numImages)
+    print("initialized backend")
     # initialize variable access handlers 
     I90_access = backend.get_variable_handler("I90")    # Object for variable access
     I91_access = backend.get_variable_handler("I91")    # Object for variable access
     P90_access = backend.get_variable_handler("P90")    # Object to post new Coordinates
+    print("strating routine")
 
     try:
         img_counter = 0
