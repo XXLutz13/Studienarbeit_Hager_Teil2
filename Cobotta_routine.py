@@ -30,7 +30,6 @@ class COBOTTA_ROUTINE:
 
     def __new__(cls, label, num_img):
         if cls._instance is None:
-            print('Creating the object')
             cls._instance = super(COBOTTA_ROUTINE, cls).__new__(cls)
 
             # initialize global variables

@@ -36,7 +36,7 @@ def index():
         global dataLabel
         global numImages
         dataLabel = request.form['dataLabel']
-        numImages = request.form['numImages']
+        numImages = int(request.form['numImages'])
 
         if not dataLabel:
             print('Label is required!')
