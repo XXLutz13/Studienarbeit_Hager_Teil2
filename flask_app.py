@@ -156,7 +156,8 @@ def start_routine():
             for point in cords:
                 
                 new_coords = point
-                backend.write_value(P90_access, new_coords)    # write new coordinates
+                backend.write_value(P90_access, new_coords)    # write new coordinate
+                print(new_coords)
 
                 # acctivate script on cobotta
                 I90 = 1   # new value
@@ -166,7 +167,6 @@ def start_routine():
                 # wait for robot to set I91
                 while not ready:
                     ready = backend.read_value(I91_access)  # read I91
-                    print(ready)
                     time.sleep(0.1)
 
                 # capturing image
