@@ -68,9 +68,9 @@ def running():
     global headerLink
     headerLink = 'running'
     # if finished -> index + headerLink = "index"
+    global routine_active
     if not routine_active:
     # start backend routine
-        global routine_active
         routine_active = True
         routine = threading.Thread(target=start_routine)
         routine.daemon = True
