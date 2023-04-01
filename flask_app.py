@@ -166,6 +166,7 @@ def start_routine():
                 # wait for robot to set I91
                 while not ready:
                     ready = backend.read_value(I91_access)  # read I91
+                    print(ready)
                     time.sleep(0.1)
 
                 # capturing image
