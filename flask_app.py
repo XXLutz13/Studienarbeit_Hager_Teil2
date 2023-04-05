@@ -170,6 +170,7 @@ def start_routine():
                     print(ready)
                     time.sleep(0.1)
 
+                print("trying to capture image")
                 # capturing image
                 img = cam.OneShot(backend, dataLabel)   # poss. self parameter not needed
                 print(type(img))
