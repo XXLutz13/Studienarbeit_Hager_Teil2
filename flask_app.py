@@ -171,9 +171,9 @@ def start_routine():
                     time.sleep(0.1)
 
                 # capturing image
-                # img = cam.OneShot(backend, dataLabel)   # poss. self parameter not needed
-                # print(type(img))
-                # send_img()
+                img = cam.OneShot(backend, dataLabel)   # poss. self parameter not needed
+                print(type(img))
+                send_img()
                 img_counter = img_counter + 1
                 # send progress in %
                 progress = f"{(img_counter/numImages)*100}%"
