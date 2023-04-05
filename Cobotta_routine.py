@@ -179,26 +179,22 @@ def coordinates(num_images, center):
     spacing = num_images//8
 
     # phi = np.linspace(0, 0.5 * np.pi, spacing)
-    phi = np.linspace(0.5*np.pi, np.pi, spacing)
-    X = []
-    Y = center[1] + R * np.cos(phi)
+    phi = np.linspace(0.85*np.pi, 0.5*np.pi, spacing)
+    X = [center[0]]*spacing
+    Y = center[1] - R * np.cos(phi)
     Z = center[2] + R * np.sin(phi)
-    rx = []
-    ry = []
-    rz = []
+    rx = np.linspace(180, 90, 24)
+    ry = [0]*spacing
+    rz = [0]*spacing
+    num_steps = [50]*8
+    # type conversions
+    rx = rx.tolist()
+    Y = Y.tolist()
+    Z = Z.tolist()
 
-    cords = []
-    angle_x_increment = 90/(spacing-1)
-    for i in range(spacing):
-        X += [center[0]]
-        rx += [180 - i*angle_x_increment]
-        ry += [0]
-        rz += [0]
-        cords += [[X[i], float(-Y[i]), float(Z[i]), rx[i], ry[i], rz[i]]] 
-
-    num_steps = []
-    for x in range(8):
-        num_steps += [50]
+    cords = list(zip(X, Y, Z, rx, ry, rz))
+    # Round every element in the list of tuples using list comprehension and round()
+    cords = [(round(a, 4), round(b, 4), round(c, 4), round(d, 4), round(e, 4), round(f, 4)) for a,b,c,d,e,f in cords]
     
     return cords, num_steps
 
