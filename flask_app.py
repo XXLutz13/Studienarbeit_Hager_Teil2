@@ -152,6 +152,7 @@ def start_routine():
 
     try:
         img_counter = 0
+        send_progress(progress="0%")
         for rotation in range(8):
             for point in cords:
                 
@@ -176,7 +177,7 @@ def start_routine():
                     img = cam.OneShot(backend, dataLabel)   # poss. self parameter not needed
                 except:
                     print("failed to capture image")
-                    
+
                 print(type(img))
                 send_img()
                 img_counter = img_counter + 1
