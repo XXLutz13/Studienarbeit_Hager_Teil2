@@ -45,7 +45,7 @@ class COBOTTA_ROUTINE:
             cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
 
             # calculate arrays with roboter coordinates
-            Objekt_cords = [190, -40, 120]
+            Objekt_cords = [190, -40, 110]
             cls.cords, cls.motorStepps = coordinates(cls.num_images, Objekt_cords) 
 
             logging.info("created COBOTTA_ROUTINE object")
