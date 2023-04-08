@@ -174,7 +174,7 @@ def start_routine():
                 print("trying to capture image")
                 # capturing image
                 try:
-                    img = cam.OneShot(backend, dataLabel)   # poss. self parameter not needed
+                    img = cam.OneShot(dataLabel)   # poss. self parameter not needed
                 except:
                     print("failed to capture image")
 

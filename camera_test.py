@@ -120,4 +120,3 @@ print("initialized backend")
 
 img = cam.OneShot(dataLabel)
 print("finished")
-print(img)
