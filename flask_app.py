@@ -142,13 +142,16 @@ def send_progress(progress):
 #   ! function is blocking => use separate thread !              
 #----------------------------------------------------------------------------------------------------------------
 def start_routine():
-    backend, cords, motorStepps, cam = COBOTTA_ROUTINE(dataLabel, numImages)
-    print("initialized backend")
-    # initialize variable access handlers 
-    I90_access = backend.get_variable_handler("I90")    # Object for variable access
-    I91_access = backend.get_variable_handler("I91")    # Object for variable access
-    P90_access = backend.get_variable_handler("P90")    # Object to post new Coordinates
-    print("strating routine")
+    try:
+        backend, cords, motorStepps, cam = COBOTTA_ROUTINE(dataLabel, numImages)
+        # initialize variable access handlers 
+        I90_access = backend.get_variable_handler("I90")    # Object for variable access
+        I91_access = backend.get_variable_handler("I91")    # Object for variable access
+        P90_access = backend.get_variable_handler("P90")    # Object to post new Coordinates
+        print("initialized backend")
+    except:
+        flash("faild to connect Cobotta", category="error")
+        print("faild to connect Cobotta")   
 
     try:
         img_counter = 0
@@ -200,6 +203,7 @@ def start_routine():
         return "Finished"
 
     except:
+        flash("routine error", category="error")
         return "Failed"
 
 
