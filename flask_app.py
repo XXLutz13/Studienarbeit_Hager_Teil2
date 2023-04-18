@@ -79,6 +79,7 @@ def running():
     if routine_active:
         return render_template('running.html')  
     else:
+        flash('Label is required!', category="error")
         return redirect(url_for('index'))
 
 #----------------------------------------------------------------------------------------------------------------

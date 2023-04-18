@@ -25,6 +25,19 @@
         </div>
     </div>
 
+    <div class="wrapper-success" id="wrapper-success">
+        <div class="card">
+            <div class="icon"><i class="fas fa-check-circle"></i></div>
+                <div class="subject">
+                    <h3>Success</h3>
+                    <p>Anyone with access can view your invited visitors</p>
+                </div>
+            <div class="icon-times">
+                <a href="{{ url_for('index') }}"><i class="fas fa-times"></i></a>
+            </div>
+        </div>
+    </div>
+
 <script>
     const socket_img = new WebSocket('ws://' + location.host + '/image');
     console.log("connected ws")
@@ -43,6 +56,15 @@
         var progress_bar = document.getElementById('progress-bar-fill');
         progress_bar.style = "width:" + msg.progress + ";";
     });
+
+
+    var showElement = true; // change this value to show/hide the element
+    var element = document.getElementById('wrapper-success');
+    if (showElement) {
+    element.style.display = 'block'; // show the element
+    } else {
+    element.style.display = 'none'; // hide the element
+    }
 </script>
 
 {% endblock %}
