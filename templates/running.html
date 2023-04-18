@@ -57,13 +57,12 @@
         progress_bar.style = "width:" + msg.progress + ";";
     });
 
-
-    var showElement = '{{ finished }}'; 
-    var element = document.getElementById('wrapper-success');
-    if (showElement) {
-    element.style.display = 'block'; // show the element
+    var finished = '{{ finished }}'; 
+    var section = document.getElementById('wrapper-success');
+    if (finished) {
+        section.style.display = 'block'; // show the section
     } else {
-    element.style.display = 'none'; // hide the element
+        section.style.display = 'none'; // hide the section
     }
 </script>
 
