@@ -57,7 +57,7 @@
         progress_bar.style = "width:" + msg.progress + ";";
     });
 
-    var finished = '{{ finished }}'; 
+    var finished = {{ finished }}; 
     var section = document.getElementById('wrapper-success');
     if (finished) {
         section.style.display = 'block'; // show the section
