@@ -77,10 +77,9 @@ def running():
         routine.start()
 
     if routine_active:
-        return render_template('running.html')  
+        return render_template('running.html', finished=False)  
     else:
-        flash('Label is required!', category="error")
-        return redirect(url_for('index'))
+        render_template('running.html', finished=True)  
 
 #----------------------------------------------------------------------------------------------------------------
 #   websocket for sending image 
