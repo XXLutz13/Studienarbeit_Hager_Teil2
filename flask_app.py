@@ -171,7 +171,6 @@ def start_routine():
                 # wait for robot to set I91
                 while not ready:
                     ready = backend.read_value(I91_access)  # read I91
-                    print(ready)
                     time.sleep(0.1)
 
                 print("trying to capture image")
@@ -194,7 +193,12 @@ def start_routine():
                 I90 = 0   # new value
                 backend.write_value(I90_access, I90) # write I90 value
 
-            backend.stepper_worker(motorStepps[rotation], stepper.FORWARD)   # move stepper motor 
+            try:
+                backend.stepper_worker(motorStepps[rotation], stepper.FORWARD)   # move stepper motor 
+            except:
+                print("Failed to move stepper")
+                flash("Failed to move stepper", category="error")
+                
             cords.reverse()
             print("reversed cords")
 
@@ -210,7 +214,6 @@ def start_routine():
 
 if __name__ == '__main__':
 
+    app.run(host='0.0.0.0', port=5000) 
     send_img()
     send_progress(progress="0%")
-
-    app.run(host='0.0.0.0', port=5000) # threaded?
