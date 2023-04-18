@@ -4,7 +4,7 @@
     --headercolor: #ffffff;
     --dhbw: #E30613;
     --warning: #f2a600;
-    --success: #12c99b;
+    --success: #49d761;
     --error: #E30613;
 }
 
@@ -170,28 +170,12 @@ form hr {
     cursor: pointer;
 }
 
-/* running page */
-.running_container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-.running_container .card {
-    width: 650px;
-    height: 150px;
-    background-color: var(--headercolor);
-    padding: 10px 20px;
-    border-radius: 10px;
-    box-shadow: rgba(149, 157, 165, 0.2) 5px 5px 10px;
-}
-.running_container .card h3 {
-    font-size: 28px;
-    text-align: center;
-}
-
 /* success */
 .wrapper-success {
-    margin: 120px;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    z-index: 1;
     display: flex;
     justify-content: center;
 }
@@ -221,6 +205,25 @@ form hr {
     font-size: 28px;
     color: #c3c2c7;
     cursor: pointer;
+}
+
+/* running page */
+.running_container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.running_container .card {
+    width: 650px;
+    height: 150px;
+    background-color: var(--headercolor);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 5px 5px 10px;
+}
+.running_container .card h3 {
+    font-size: 28px;
+    text-align: center;
 }
 
 /* progress bar */
