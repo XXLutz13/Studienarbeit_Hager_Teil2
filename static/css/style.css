@@ -171,10 +171,19 @@ form hr {
 }
 
 /* success */
+.blur-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+    filter: alpha(opacity = 50);
+}
+
 .wrapper-success {
     position: absolute;
     top: 50%; 
-    left: 50%;
+    left: 33.5%;
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -193,6 +202,7 @@ form hr {
 }
 .wrapper-success .card .subject {
     margin-right: 180px;
+    font-size: 20px;
 }
 .wrapper-success .card .subject p {
     color: #909092;
