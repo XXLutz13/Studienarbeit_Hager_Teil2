@@ -142,6 +142,7 @@ def send_progress(progress):
 #   ! function is blocking => use separate thread !              
 #----------------------------------------------------------------------------------------------------------------
 def start_routine():
+    send_progress(progress="0%")
     try:
         backend, cords, motorStepps, cam = COBOTTA_ROUTINE(dataLabel, numImages)
         # initialize variable access handlers 
@@ -155,7 +156,6 @@ def start_routine():
 
     try:
         img_counter = 0
-        send_progress(progress="0%")
         for rotation in range(8):
             for point in cords:
                 
@@ -198,7 +198,7 @@ def start_routine():
             except:
                 print("Failed to move stepper")
                 flash("Failed to move stepper", category="error")
-                
+
             cords.reverse()
             print("reversed cords")
 
@@ -215,5 +215,4 @@ def start_routine():
 if __name__ == '__main__':
 
     app.run(host='0.0.0.0', port=5000) 
-    send_img()
-    send_progress(progress="0%")
+
