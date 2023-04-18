@@ -192,17 +192,19 @@ form hr {
 /* success */
 .wrapper-success {
     margin: 120px;
+    display: flex;
+    justify-content: center;
 }
 .wrapper-success .card {
-    width: 720px;
-    height: 120px;
-    background-color: #fff;
+    width: 650px;
+    height: 150px;
+    background-color: var(--headercolor);
     padding: 10px 20px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-left: 5px solid #49d761;
-    border-radius: 3px;
+    border-left: 10px solid var(--success);
+    border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .wrapper-success .card .subject {
