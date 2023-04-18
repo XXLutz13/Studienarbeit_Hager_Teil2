@@ -77,9 +77,9 @@ def running():
         routine.start()
 
     if routine_active:
-        return render_template('running.html', finished=false)  
+        return render_template('running.html', finished=0)  
     else:
-        render_template('running.html', finished=true)  
+        render_template('running.html', finished=1)  
 
 #----------------------------------------------------------------------------------------------------------------
 #   websocket for sending image 
