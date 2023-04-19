@@ -128,7 +128,7 @@ form hr {
 
 .form-heading {
     font-family: 'Oxygen', sans-serif;
-    font-size: 24px;
+    font-size: 3rem;
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center;
@@ -153,6 +153,7 @@ form hr {
 
 .data-text {
     padding-right: 5px;
+    font-size: 1.2rem;
 }
 
 .submit {
@@ -165,7 +166,7 @@ form hr {
 .submit-button {
     background-color: white;
     border: solid 2px var(--success);
-    color: var(--success);
+    color: #1c89ff;
     width: 220px;
     height: 60px;
     font-size: 18px;
