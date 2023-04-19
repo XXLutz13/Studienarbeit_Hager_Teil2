@@ -311,6 +311,11 @@ form hr {
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 5px 5px 10px;
 }
+
+.about-line {
+    width: 60%;
+}
+
 .betreuer {
     display: inline-block;
 }
