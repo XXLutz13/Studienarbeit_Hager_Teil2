@@ -21,7 +21,7 @@
         <hr>
         <section class="dataLabel">
             <label class="data-text" for="numImages">Input number of images: </label>
-            <input class="data-input" type="number" name="numImages" id="numImages" placeholder=100  value="{{ request.form['numImages'] }}">
+            <input class="data-input" type="number" name="numImages" id="numImages" placeholder=100 min=0 value="{{ request.form['numImages'] }}">
         </section>
         <hr>
         <section class="submit">

@@ -141,14 +141,25 @@ form hr {
 }
 
 .data-input {
-    color: #333;
-    font-size: 1rem;
-    padding: 0.5rem 0.5rem;
-    border-radius: 0.2rem;
-    background-color: rgb(255, 255, 255);
-    width: 20%;
     display: block;
-    border-bottom: 0.3rem solid transparent;
+    width: 20%;
+    padding: 8px 16px;
+    line-height: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: 6px;
+    color: #99A3BA;
+    border: 1px solid #CDD9ED;
+    background: #fff;
+    transition: border .3s ease;
+    &::placeholder {
+        color: #CBD1DC;
+    }
+    &:focus {
+        outline: none;
+        border-color: #275EFE;
+    }
 }
 
 .data-text {
@@ -313,7 +324,7 @@ form hr {
 }
 
 .about-line {
-    width: 60%;
+    border-top: 1px;
 }
 
 .betreuer {
