@@ -166,7 +166,7 @@ form hr {
 .submit-button {
     background-color: white;
     border: solid 2px var(--success);
-    color: #1c89ff;
+    color: var(--success);
     width: 220px;
     height: 60px;
     font-size: 18px;
