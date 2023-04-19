@@ -138,10 +138,34 @@ form hr {
     justify-content: center;
 }
 
+.data-input {
+    color: #333;
+    font-size: 1.2rem;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    border-radius: 0.2rem;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    width: 90%;
+    display: block;
+    border-bottom: 0.3rem solid transparent;
+}
+
 .submit {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.submit-button {
+    background-color: white;
+    border: solid 2px #1ECD97;
+    color: #1ECD97;
+    width: 60px;
+    height: 220px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
 }
 
 /* error -> source: https://codepen.io/alvarotrigo/pen/OJELWoM */
