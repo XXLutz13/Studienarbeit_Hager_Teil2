@@ -155,7 +155,7 @@ form hr {
 }
 .data-input:focus {
     outline: none;
-    border-color: var(--success);
+    border: 1px solid var(--success);
 }
 
 .data-text {
