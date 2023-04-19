@@ -114,6 +114,8 @@ a:hover {
     height: 80%;
     background-color: #95a5a6;
     border-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 20px;
 }
 
 form hr {
@@ -140,29 +142,32 @@ form hr {
 
 .data-input {
     color: #333;
-    font-size: 1.2rem;
-    margin: 0 auto;
-    padding: 1.5rem 2rem;
+    font-size: 1rem;
+    padding: 0.5rem 0.5rem;
     border-radius: 0.2rem;
     background-color: rgb(255, 255, 255);
-    border: none;
-    width: 90%;
+    width: 20%;
     display: block;
     border-bottom: 0.3rem solid transparent;
+}
+
+.data-text {
+    padding-right: 5px;
 }
 
 .submit {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 5px;
 }
 
 .submit-button {
     background-color: white;
     border: solid 2px #1ECD97;
     color: #1ECD97;
-    width: 60px;
-    height: 220px;
+    width: 220px;
+    height: 60px;
     font-size: 18px;
     font-weight: bold;
     border-radius: 30px;

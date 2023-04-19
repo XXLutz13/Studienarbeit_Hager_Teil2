@@ -15,12 +15,12 @@
         <h1 class="form-heading">Start a camera routine!</h1>
         <hr class="heading-line">
         <section class="dataLabel">
-            <label for="dataLabel">Input a label for the generated images: </label>
+            <label class="data-text" for="dataLabel">Input a label for the generated images: </label>
             <input class="data-input" type="text" name="dataLabel" id="dataLabel" placeholder="add label"  value="{{ request.form['dataLabel'] }}">
         </section>
         <hr>
         <section class="dataLabel">
-            <label for="numImages">Input number of images: </label>
+            <label class="data-text" for="numImages">Input number of images: </label>
             <input class="data-input" type="number" name="numImages" id="numImages" placeholder="100"  value="{{ request.form['numImages'] }}">
         </section>
         <hr>
