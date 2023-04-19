@@ -318,6 +318,9 @@ form hr {
 
 .betreuer {
     display: inline-block;
+    border-radius: 10px;
+    border: solid 2px #333;
+
 }
 .betreuer .list  {
     line-height: 1.5em;
