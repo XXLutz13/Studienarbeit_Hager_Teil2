@@ -113,7 +113,7 @@ a:hover {
     margin: 3% auto;
     height: 80%;
     background-color: #95a5a6;
-    border-radius: 10px;
+    border-radius: 15px;
     padding-top: 5px;
     padding-bottom: 20px;
 }
@@ -164,13 +164,18 @@ form hr {
 
 .submit-button {
     background-color: white;
-    border: solid 2px #1ECD97;
-    color: #1ECD97;
+    border: solid 2px var(--success);
+    color: var(--success);
     width: 220px;
     height: 60px;
     font-size: 18px;
     font-weight: bold;
     border-radius: 30px;
+}
+
+.submit-button:hover {
+    background-color: var(--success);
+    color: white;
 }
 
 /* error -> source: https://codepen.io/alvarotrigo/pen/OJELWoM */
