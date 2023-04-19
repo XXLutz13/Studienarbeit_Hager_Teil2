@@ -153,13 +153,10 @@ form hr {
     border: 1px solid #CDD9ED;
     background: #fff;
     transition: border .3s ease;
-    &::placeholder {
-        color: #CBD1DC;
-    }
-    &:focus {
-        outline: none;
-        border-color: #275EFE;
-    }
+}
+.data-input:focus {
+    outline: none;
+    border-color: #275EFE;
 }
 
 .data-text {
