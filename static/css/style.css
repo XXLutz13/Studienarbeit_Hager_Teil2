@@ -109,7 +109,7 @@ a:hover {
 }
 
 #overlay {
-    width: 60%;
+    width: 50%;
     margin: 3% auto;
     height: 80%;
     background-color: #95a5a6;
@@ -304,7 +304,7 @@ form hr {
     align-items: center;
 }
 .about-container .card {
-    width: 60%;
+    width: 50%;
     height: 350px;
     background-color: var(--headercolor);
     padding: 10px 20px;
