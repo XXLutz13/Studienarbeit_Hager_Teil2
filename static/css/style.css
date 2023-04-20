@@ -155,7 +155,7 @@ form hr {
 }
 .data-input:focus {
     outline: none;
-    border: 2px solid var(--success);
+    border-color: var(--success);
 }
 
 .data-text {
@@ -326,7 +326,7 @@ form hr {
 .betreuer {
     display: flex;
     border-radius: 10px;
-    border: solid 2px #333;
+    border: solid 0.5px #333;
     padding-top: 10px;
     padding-left: 20px;
     padding-right: 20px;
