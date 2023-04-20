@@ -119,4 +119,5 @@ backend, cam = COBOTTA_ROUTINE(dataLabel, numImages)
 print("initialized backend")
 
 img = cam.OneShot(dataLabel)
+print(type(img))
 print("finished")
