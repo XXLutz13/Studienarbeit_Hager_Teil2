@@ -46,6 +46,7 @@ class COBOTTA_ROUTINE:
             # Connect to RC8 (RC8(VRC)provider)
             RC8 = client.controller_connect(Name, Provider, Machine, Option)
 
+            camera_handler = client.controller_connect('N10-W02', 'CaoProv.Canon.N10-W02', '', 'Conn=eth:'+ IP +', Timeout=3000')
             print("Cobotta connected")
             return client, RC8
             
