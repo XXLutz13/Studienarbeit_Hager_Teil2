@@ -155,7 +155,7 @@ form hr {
 }
 .data-input:focus {
     outline: none;
-    border-color: var(--success);
+    border: 2px solid var(--success);   /* 1px ? box moves if larger border */
 }
 
 .data-text {
