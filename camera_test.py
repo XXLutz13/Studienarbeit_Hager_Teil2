@@ -1,8 +1,8 @@
 import pybcapclient.bcapclient as bcapclient    # Denso library for Cobotta access
 
 
-from adafruit_motorkit import MotorKit  # library for motor control board
-from adafruit_motor import stepper
+# from adafruit_motorkit import MotorKit  # library for motor control board
+# from adafruit_motor import stepper
 
 import logging
 logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
@@ -30,12 +30,12 @@ class COBOTTA_ROUTINE:
             cls.num_images = num_img
 
             # create motorkit object
-            cls.kit = MotorKit() 
+            # cls.kit = MotorKit() 
 
             # establish Cobotta connection
-            cls.client, cls.RC8 = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '10.50.12.87')
+            cls.client, cls.RC8 = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '192.168.0.1')
             # open camera connection
-            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
+            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='192.168.0.90')
 
 
             logging.info("created COBOTTA_ROUTINE object")
@@ -107,10 +107,17 @@ class COBOTTA_ROUTINE:
 
                 # save image to file
                 print("captured image")
+                self.convert_image(image_buff)
                 return image_buff
             except:
                 logging.error("faild to capture image")
                 raise RuntimeError("faild to capture image")
+            
+        def convert_image(self, img):
+            np_img = np.frombuffer(img , dtype=np.uint8)
+            cv_image = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+            cv2.imshow("test", cv_image)
+            cv2.waitKey(0)
 
 
 dataLabel = "test"
@@ -120,4 +127,6 @@ print("initialized backend")
 
 img = cam.OneShot(dataLabel)
 print(type(img))
+file = open('test.txt','w')
+file.write(str(img))
 print("finished")
