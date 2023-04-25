@@ -1,91 +1,71 @@
-import pybcapclient.bcapclient as bcapclient    # Denso library for Cobotta access
+from flask import Flask, render_template, flash, request, make_response, send_file, redirect, url_for, current_app
+import secrets
+from datetime import datetime
+import os
+import cv2
 
 
-#
-class COBOTTA_ROUTINE:
-    _instance = None
-
-    def __new__(cls, label, num_img):
-        if cls._instance is None:
-            cls._instance = super(COBOTTA_ROUTINE, cls).__new__(cls)
-
-            # initialize global variables
-            cls.name = label
-            cls.num_images = num_img
-
-            # establish Cobotta connection
-            cls.client, cls.RC8 = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '10.50.12.87')
-            # open camera connection
-            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
+# create flask app
+app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
+app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
 
 
-            print("created COBOTTA_ROUTINE object")
+dataLabel = ""
+numImages = 0
+active = False
+#----------------------------------------------------------------------------------------------------------------
+#   index page
+#----------------------------------------------------------------------------------------------------------------
+@app.route('/', methods=('GET', 'POST'))
+def index():
+    if request.method == 'POST':
+        global dataLabel
+        global numImages
+        dataLabel = request.form['dataLabel']
+        numImages = int(request.form['numImages'])
 
-        return cls._instance,  cls.CAM
-    
-
-    def connect_Cobotta(self, IP):
-        # set IP Address , Port number and Timeout of connected RC8
-        host = IP
-        port = 5007
-        timeout = 2000
-
-        try:
-            # Connection processing of tcp communication
-            client = bcapclient.BCAPClient(host, port, timeout)
-
-            # start b_cap Service
-            client.service_start("")
-
-            # set Parameter
-            Name = ""
-            Provider = "CaoProv.DENSO.VRC"
-            Machine = host
-            Option = ""
-
-            # Connect to RC8 (RC8(VRC)provider)
-            RC8 = client.controller_connect(Name, Provider, Machine, Option)
-
-            camera_handler = client.controller_connect('N10-W02', 'CaoProv.Canon.N10-W02', '', 'Conn=eth:'+ IP +', Timeout=3000')
-            print("Cobotta connected")
-            return client, RC8
+        if not dataLabel:
+            print('Label is required!')
+            flash('Label is required!', category="error")
+        # elif not numImages:
+        #     print('Number of images is required!')
+        #     flash('Number of images is required!', category="error")
+        else:  
+            print(dataLabel)
+            print(numImages)
+            global active
+            active = True
+            test_file(dataLabel)
+            # return redirect(url_for('running'))
             
-        except:
-            print("can't connect to Cobotta")
-            raise RuntimeError("can't connect to Cobotta")
+    if active:
+        return redirect(url_for('running'))
+    else:
+        return render_template('index.html')
 
-    class CAMERA:
-        def __init__(self, client, IP):
-            try:
-                # Get Camera Handler
-                self.camera_handler = client.controller_connect('N10-W02', 'CaoProv.Canon.N10-W02', '', 'Conn=eth:'+ IP +', Timeout=3000')
-                self.client = client
-                # Get Variable ID
-                self.variable_handler = self.client.controller_getvariable(self.camera_handler, 'IMAGE')
-                print("connected to camera")
-            except:
-                print("can't connect camera")
-                raise RuntimeError("can't connect camera")
 
-        def OneShot(self, name):
-            try:
-                # take and export image from Canon camera 
-                self.client.controller_execute(self.camera_handler, 'OneShotFocus', '')
-                image_buff = self.client.variable_getvalue(self.variable_handler)
+#----------------------------------------------------------------------------------------------------------------
+#   websocket for sending image 
+#----------------------------------------------------------------------------------------------------------------
+def test_file(dataLabel):
+    with app.app_context():
+        root_path = current_app.root_path
 
-                # save image to file
-                print("captured image")
-                return image_buff
-            except:
-                print("faild to capture image")
-                raise RuntimeError("faild to capture image")
-            
+    # Load the image data
+    image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
+    # try saving it on the external hard drive
+    parent_dir  = '/exdisk'
+    directory = dataLabel + str(datetime.now().strftime("%Y%m%d_%H:%M:%S"))
+    print(directory)
+    path = os.path.join(parent_dir, directory)
+    os.mkdir(path)
+    print("Directory '% s' created" % directory)
 
-dataLabel = "test"
-numImages = 100
-backend, cam = COBOTTA_ROUTINE(dataLabel, numImages)
-print("initialized backend")
+    img_path = os.path.join(path, directory)
+    cv2.imwrite(img_path, image)
 
-img = cam.OneShot(dataLabel)
-print(type(img))
-print("finished")
+if __name__ == '__main__':
+
+    app.run(host='0.0.0.0', port=5000) 
+
