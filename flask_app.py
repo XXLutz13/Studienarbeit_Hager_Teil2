@@ -96,19 +96,22 @@ def clock(ws):
             break
     client_list.remove(ws)
 
-def send_img():
+def send_img(image):
     clients = client_list.copy()
     for client in clients:
         try:
-            with app.app_context():
-                root_path = current_app.root_path
+            # with app.app_context():
+            #     root_path = current_app.root_path
 
-            # Load the image data
-            image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
+            # # Load the image data
+            # image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
             # Encode the image data as base64
-            image_base64 = base64.b64encode(image).decode('ascii')
+            # Convert the image to base64 string
+            retval, buffer = cv2.imencode('.png',image)  
+            png_as_text = base64.b64encode(buffer)
+            # image_base64 = base64.b64encode(image).decode('ascii')
             # Generate a data URL for the image
-            data_url = f'data:image/png;base64,{image_base64}'
+            data_url = f'data:image/png;base64,{png_as_text}'
 
             client.send(json.dumps({'img_src': data_url}))
         except:
@@ -184,7 +187,7 @@ def start_routine():
                     print("failed to capture image")
 
                 print(type(img))
-                send_img()
+                send_img(img)
                 img_counter = img_counter + 1
                 # send progress in %
                 progress = f"{(img_counter/numImages)*100}%"

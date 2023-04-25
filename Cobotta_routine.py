@@ -144,7 +144,7 @@ class COBOTTA_ROUTINE:
                 image_name = '{}{}.png'
                 img_path = os.path.join(COBOTTA_ROUTINE.path, image_name)
                 cv2.imwrite(image_name.format(datetime.now().strftime("%Y%m%d_%H:%M:%S"), name), cv_image)
-                return image_buff
+                return cv_image
             except:
                 logging.error("faild to capture image")
                 raise RuntimeError("faild to capture image")
