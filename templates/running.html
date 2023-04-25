@@ -44,8 +44,8 @@
     socket_img.addEventListener('message', ev => {
         msg = JSON.parse(ev.data);
         var pic = document.getElementById('refresh_img');
-        console.log(pic.src);
         pic.src = msg.img_src;
+        console.log(pic.src);
     });
 
     const socket_progress = new WebSocket('ws://' + location.host + '/progress');
