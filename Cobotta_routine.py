@@ -36,7 +36,7 @@ class COBOTTA_ROUTINE:
             cls.name = label
             cls.num_images = num_img
             # create folder for the images
-            cls.path = cls.createDirectory(cls.name)
+            cls.path = createDirectory(cls.name)
             logging.info(f"created directory {cls.path}")
 
             # create motorkit object
@@ -223,4 +223,5 @@ def createDirectory(name):
     path = os.path.join(parent_dir, directory)
     os.mkdir(path)
     print("Directory '% s' created" % directory)
+
     return path
