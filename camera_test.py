@@ -33,9 +33,9 @@ class COBOTTA_ROUTINE:
             # cls.kit = MotorKit() 
 
             # establish Cobotta connection
-            cls.client, cls.RC8 = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '192.168.0.1')
+            cls.client, cls.RC8 = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '10.50.12.87')
             # open camera connection
-            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='192.168.0.90')
+            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
 
 
             logging.info("created COBOTTA_ROUTINE object")
