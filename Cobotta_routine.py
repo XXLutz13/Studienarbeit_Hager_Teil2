@@ -14,7 +14,7 @@ from adafruit_motor import stepper
 import logging
 logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 import cv2
-import time
+import os
 import numpy as np
 from datetime import datetime
 
@@ -35,6 +35,8 @@ class COBOTTA_ROUTINE:
             # initialize global variables
             cls.name = label
             cls.num_images = num_img
+            # create folder for the images
+            cls.path = cls.createDirectory(cls.name)
 
             # create motorkit object
             cls.kit = MotorKit() 
@@ -138,7 +140,8 @@ class COBOTTA_ROUTINE:
 
                 cv_image = convert_image(image_buff)    # -> check img formate -> if usable byte, then directly encode to base64 
                 # save image to file
-                image_name = 'Images/{}{}.png'
+                image_name = '{}{}.png'
+                img_path = os.path.join(COBOTTA_ROUTINE.path, image_name)
                 cv2.imwrite(image_name.format(datetime.now().strftime("%Y%m%d_%H:%M:%S"), name), cv_image)
                 return image_buff
             except:
@@ -212,3 +215,11 @@ def convert_image(img):
 
     return resized
 
+# creates a new directory on the external hard drive
+def createDirectory(name):
+    parent_dir  = '/exdisk'
+    directory = name + str(datetime.now().strftime("%Y%m%d_%H:%M:%S"))
+    path = os.path.join(parent_dir, directory)
+    os.mkdir(path)
+    print("Directory '% s' created" % directory)
+    return path
