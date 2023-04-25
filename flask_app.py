@@ -107,7 +107,6 @@ def send_img():
             image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
             # Encode the image data as base64
             image_base64 = base64.b64encode(image).decode('ascii')
-            print(image_base64)
             # Generate a data URL for the image
             data_url = f'data:image/png;base64,{image_base64}'
 
