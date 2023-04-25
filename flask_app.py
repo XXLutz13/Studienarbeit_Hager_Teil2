@@ -152,12 +152,11 @@ def start_routine():
         I90_access = backend.get_variable_handler("I90")    # Object for variable access
         I91_access = backend.get_variable_handler("I91")    # Object for variable access
         P90_access = backend.get_variable_handler("P90")    # Object to post new Coordinates
-        send_progress(progress="0%")
         print("initialized backend")
     except:
         flash("faild to connect Cobotta", category="error")
         print("faild to connect Cobotta")   
-        
+
     try:
         img_counter = 0
         for rotation in range(8):
