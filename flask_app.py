@@ -159,7 +159,7 @@ def start_routine():
     except:
         flash("faild to connect Cobotta", category="error")
         print("faild to connect Cobotta")   
-    send_img()
+        
     try:
         img_counter = 0
         for rotation in range(8):
