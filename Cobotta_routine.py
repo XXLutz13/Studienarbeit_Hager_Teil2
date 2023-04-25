@@ -37,6 +37,7 @@ class COBOTTA_ROUTINE:
             cls.num_images = num_img
             # create folder for the images
             cls.path = cls.createDirectory(cls.name)
+            logging.info(f"created directory {cls.path}")
 
             # create motorkit object
             cls.kit = MotorKit() 
