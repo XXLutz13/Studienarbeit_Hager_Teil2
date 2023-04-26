@@ -6,8 +6,11 @@ class STEPPER_TEST:
     def __init__(self):
         # create motorkit object
         self.kit = MotorKit() 
-
+        
     # moves stepper motor
     def stepper_worker(self, numsteps, direction):
         for x in range(numsteps):
-            self.kit.onestep(direction=direction)
+            if direction == 'FORWARD':
+                self.kit.onestep(stepper.FORWARD)
+            elif direction == 'BACKWARD':
+                self.kit.onestep(stepper.BACKWARD)
