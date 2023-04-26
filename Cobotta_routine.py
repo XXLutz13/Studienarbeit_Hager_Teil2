@@ -153,7 +153,10 @@ class COBOTTA_ROUTINE:
     # moves stepper motor
     def stepper_worker(self, numsteps, direction):
         for x in range(numsteps):
-            self.kit.onestep(direction=direction)
+            if direction == 'FORWARD':
+                self.kit.stepper1.onestep(direction=stepper.FORWARD)
+            elif direction == 'BACKWARD':
+                self.kit.stepper1.onestep(direction=stepper.BACKWARD)
             
 
     def __del__(self):
@@ -169,6 +172,8 @@ class COBOTTA_ROUTINE:
         self.kit.stepper1.release()
 
         logging.info("service stoped!")
+
+
 
 
 #----------------------------------------------------------------------------------------------------------------

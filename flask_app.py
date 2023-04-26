@@ -200,7 +200,7 @@ def start_routine():
                 backend.write_value(I90_access, I90) # write I90 value
 
             try:
-                backend.stepper_worker(motorStepps[rotation], stepper.FORWARD)   # move stepper motor 
+                backend.stepper_worker(motorStepps[rotation], 'FORWARD')   # move stepper motor 
             except:
                 print("Failed to move stepper")
                 flash("Failed to move stepper", category="error")
