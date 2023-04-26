@@ -108,10 +108,10 @@ def send_img(image):
             # Encode the image data as base64
             # Convert the image to base64 string
             retval, buffer = cv2.imencode('.png',image)  
-            png_as_text = base64.b64encode(buffer)
+            png_as_text = base64.b64encode(buffer).decode('utf-8')
             # image_base64 = base64.b64encode(image).decode('ascii')
             # Generate a data URL for the image
-            data_url = f'data:image/png;base64,{png_as_text}'
+            data_url = f"data:image/png;base64,{png_as_text}"
 
             client.send(json.dumps({'img_src': data_url}))
         except:
