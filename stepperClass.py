@@ -13,7 +13,7 @@ class STEPPER_TEST:
         for x in range(numsteps):
             if direction == 'FORWARD':
                 print("Moving forward")
-                self.kit.stepper1.onestep(stepper.FORWARD)
+                self.kit.stepper1.onestep(direction=stepper.FORWARD)
             elif direction == 'BACKWARD':
                 print("Moving backward")
-                self.kit.stepper1.onestep(stepper.BACKWARD)
+                self.kit.stepper1.onestep(direction=stepper.BACKWARD)
