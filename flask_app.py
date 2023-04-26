@@ -82,7 +82,6 @@ def running():
         routine.daemon = True
         routine.start()
 
-    global finished
     if finished:
         finished = False
         return render_template('running.html', finished=1)  
