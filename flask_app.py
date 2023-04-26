@@ -26,6 +26,7 @@ numImages = 0
 headerLink = 'index'
 active = False
 routine_active = False
+finished = False
 
 #----------------------------------------------------------------------------------------------------------------
 #   index page
@@ -56,12 +57,14 @@ def index():
     else:
         return render_template('index.html')
 
+
 #----------------------------------------------------------------------------------------------------------------
 #   about page
 #----------------------------------------------------------------------------------------------------------------
 @app.route('/about', methods=('GET','POST'))
 def about(): 
     return render_template('about.html', link=headerLink) 
+
 
 #----------------------------------------------------------------------------------------------------------------
 #   running page
@@ -79,10 +82,13 @@ def running():
         routine.daemon = True
         routine.start()
 
-    if routine_active:
-        return render_template('running.html', finished=0)  
+    if finished:
+        global finished
+        finished = False
+        return render_template('running.html', finished=1)  
     else:
-        render_template('running.html', finished=1)  
+        render_template('running.html', finished=0)  
+
 
 #----------------------------------------------------------------------------------------------------------------
 #   websocket for sending image 
@@ -206,9 +212,14 @@ def start_routine():
             cords.reverse()
             print("reversed cords")
 
+        # potentially not necessary
         global routine_active
         routine_active = False
+
+        global finished
+        finished = True
         # backend.__del__()
+        print("Finished")
         return "Finished"
 
     except:
