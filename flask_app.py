@@ -26,7 +26,7 @@ numImages = 0
 headerLink = 'index'
 active = False
 routine_active = False
-# finished = False
+finished = False
 
 #----------------------------------------------------------------------------------------------------------------
 #   index page
@@ -82,11 +82,12 @@ def running():
         routine.daemon = True
         routine.start()
 
-    # global finished
-    if routine_active:
+    global finished
+    if finished:
+        finished = False
         return render_template('running.html', finished=0)  
     else:
-        render_template('running.html', finished=1)  
+        return render_template('running.html', finished=1)  
 
 
 #----------------------------------------------------------------------------------------------------------------
