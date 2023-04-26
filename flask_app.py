@@ -167,7 +167,6 @@ def start_routine():
                 
                 new_coords = point
                 backend.write_value(P90_access, new_coords)    # write new coordinate
-                print(new_coords)
 
                 # acctivate script on cobotta
                 I90 = 1   # new value
@@ -179,18 +178,17 @@ def start_routine():
                     ready = backend.read_value(I91_access)  # read I91
                     time.sleep(0.1)
 
-                print("trying to capture image")
                 # capturing image
                 try:
                     img = cam.OneShot(dataLabel)   # poss. self parameter not needed
                 except:
                     print("failed to capture image")
 
-                print(type(img))
                 send_img(img)
                 img_counter = img_counter + 1
                 # send progress in %
                 progress = f"{(img_counter/numImages)*100}%"
+                print(progress)
                 send_progress(progress=progress)
                 # # evtl delay?
                 # time.sleep(2)
@@ -210,7 +208,7 @@ def start_routine():
 
         global routine_active
         routine_active = False
-        backend.__del__()
+        # backend.__del__()
         return "Finished"
 
     except:
