@@ -210,6 +210,7 @@ def start_routine():
 
         global routine_active
         routine_active = False
+        backend.__del__()
         return "Finished"
 
     except:

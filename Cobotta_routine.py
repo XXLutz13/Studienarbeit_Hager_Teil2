@@ -141,9 +141,9 @@ class COBOTTA_ROUTINE:
 
                 cv_image = convert_image(image_buff)    # -> check img formate -> if usable byte, then directly encode to base64 
                 # save image to file
-                image_name = '{}{}.png'
+                image_name = f'{name}{datetime.now().strftime("%Y%m%d_%H:%M:%S")}.png'
                 img_path = os.path.join(COBOTTA_ROUTINE.path, image_name)
-                cv2.imwrite(image_name.format(datetime.now().strftime("%Y%m%d_%H:%M:%S"), name), cv_image)
+                cv2.imwrite(img_path, cv_image)
                 return cv_image
             except:
                 logging.error("faild to capture image")
