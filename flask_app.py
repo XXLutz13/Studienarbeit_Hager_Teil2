@@ -85,9 +85,9 @@ def running():
     global finished
     if finished:
         finished = False
-        return render_template('running.html', finished=0)  
-    else:
         return render_template('running.html', finished=1)  
+    else:
+        return render_template('running.html', finished=0)  
 
 
 #----------------------------------------------------------------------------------------------------------------
