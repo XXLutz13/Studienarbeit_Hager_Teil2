@@ -78,9 +78,10 @@ def running():
     if not routine_active:
     # start backend routine
         routine_active = True
-        routine = threading.Thread(target=start_routine)
-        routine.daemon = True
-        routine.start()
+        # routine = threading.Thread(target=start_routine)
+        # routine.daemon = True
+        # routine.start()
+        routine = start_routine()
 
     global finished
     if finished:
@@ -182,7 +183,7 @@ def start_routine():
                 # wait for robot to set I91
                 while not ready:
                     ready = backend.read_value(I91_access)  # read I91
-                    time.sleep(0.1)
+                    # time.sleep(0.1)
 
                 # capturing image
                 try:
