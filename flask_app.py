@@ -26,7 +26,6 @@ numImages = 0
 headerLink = 'index'
 active = False
 routine_active = False
-finished = False
 
 #----------------------------------------------------------------------------------------------------------------
 #   index page
@@ -82,12 +81,8 @@ def running():
         routine.daemon = True
         routine.start()
 
-    global finished
-    if finished:
-        finished = False
-        return render_template('running.html', finished=1)  
-    else:
-        return render_template('running.html', finished=0)  
+    return render_template('running.html')  
+
 
 
 #----------------------------------------------------------------------------------------------------------------
@@ -196,8 +191,6 @@ def start_routine():
                 progress = f"{(img_counter/numImages)*100}%"
                 print(progress)
                 send_progress(progress=progress)
-                # # evtl delay?
-                # time.sleep(2)
 
                 # finish script on cobotta
                 I90 = 0   # new value
@@ -212,12 +205,8 @@ def start_routine():
             cords.reverse()
             print("reversed cords")
 
-        # potentially not necessary
         global routine_active
         routine_active = False
-
-        global finished
-        finished = True
         # backend.__del__()
         print("Finished")
         return "Finished"

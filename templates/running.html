@@ -8,6 +8,8 @@
 {% endblock %}
 
 {% block content %}
+    <script src="{{ url_for('static', filename= 'running.js') }}"></script> 
+
     <div class="video-img">
         <div>
             <img id="refresh_img" class="module-border-wrap" src="{{ url_for('static', filename= 'images/Test_Images/rot.png') }}">
@@ -25,45 +27,19 @@
         </div>
     </div>
 
-    <div class="wrapper-success" id="wrapper-success">
+    <div class="wrapper-success" id="wrapper-success" style="display: none;">
         <div class="card">
             <div class="icon"><i class="fas fa-check-circle"></i></div>
                 <div class="subject">
                     <h3>Success</h3>
                     <p>Dataset created successfully!</p>
                 </div>
-            <div class="icon-times">
-                <a href="{{ url_for('index') }}"><i class="fas fa-times"></i></a>
-            </div>
+                <div>
+                    <a href="{{ url_for('index') }}">
+                        <button class="submit-button" type="button" >Return Home</button>
+                    </a>
+                </div>
         </div>
     </div>
-
-<script>
-    const socket_img = new WebSocket('ws://' + location.host + '/image');
-    console.log("connected ws")
-    socket_img.addEventListener('message', ev => {
-        msg = JSON.parse(ev.data);
-        var pic = document.getElementById('refresh_img');
-        console.log(msg);
-        pic.src = msg.img_src;
-    });
-
-    const socket_progress = new WebSocket('ws://' + location.host + '/progress');
-    console.log("connected ws")
-    socket_progress.addEventListener('message', ev => {
-        msg = JSON.parse(ev.data);
-        // console.log(msg.progress)
-        var progress_bar = document.getElementById('progress-bar-fill');
-        progress_bar.style = "width:" + msg.progress + ";";
-    });
-
-    var finished = {{ finished }}; 
-    var section = document.getElementById('wrapper-success');
-    if (finished) {
-        section.style.display = 'block'; // show the section
-    } else {
-        section.style.display = 'none'; // hide the section
-    }
-</script>
 
 {% endblock %}
