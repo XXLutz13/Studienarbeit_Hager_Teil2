@@ -162,11 +162,10 @@ class COBOTTA_ROUTINE:
     def __del__(self):
         # finish script on cobotta
         I90 = 0   # new value
-        self.client.variable_putvalue(self.I90_access, I90) # write I90 value
+        I90_access = self.get_variable_handler("I90")
+        self.client.variable_putvalue(I90_access, I90) # write I90 value
 
         self.client.variable_release(self.I90_access) # close connection
-        self.client.variable_release(self.I91_access) # close connection
-        self.client.variable_release(self.P90_access) # close connection
         self.client.service_stop() # stop bcapclient
 
         self.kit.stepper1.release()
