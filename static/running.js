@@ -3,7 +3,7 @@ console.log("connected ws")
 socket_img.addEventListener('message', ev => {
     msg = JSON.parse(ev.data);
     var pic = document.getElementById('refresh_img');
-    console.log(msg);
+    // console.log(msg.img_src);
     pic.src = msg.img_src;
 });
 

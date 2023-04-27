@@ -149,7 +149,6 @@ def send_progress(progress):
 #   ! function is blocking => use separate thread !              
 #----------------------------------------------------------------------------------------------------------------
 def start_routine():
-    send_progress(progress="0%")
     try:
         backend, cords, motorStepps, cam = COBOTTA_ROUTINE(dataLabel, numImages)
         # initialize variable access handlers 
@@ -209,7 +208,7 @@ def start_routine():
         routine_active = False
         global active
         active = False
-        # backend.__del__()
+        backend.__del__()
         print("Finished")
         return "Finished"
 
