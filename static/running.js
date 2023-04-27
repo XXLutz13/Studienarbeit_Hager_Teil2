@@ -16,7 +16,7 @@ socket_progress.addEventListener('message', ev => {
     progress_bar.style = "width:" + msg.progress + ";";
 
     var success = document.getElementById('wrapper-success')
-    if (msg.progress == '100%'){
+    if (msg.progress.includes('100')){
         success.style.display = 'block'; // show the section
     }
     else {
