@@ -165,12 +165,13 @@ class COBOTTA_ROUTINE:
         I90_access = self.get_variable_handler("I90")
         self.client.variable_putvalue(I90_access, I90) # write I90 value
 
-        self.client.variable_release(self.I90_access) # close connection
+        self.client.variable_release(I90_access) # close connection
         self.client.service_stop() # stop bcapclient
 
         self.kit.stepper1.release()
 
         logging.info("service stoped!")
+        logging.Handler.close
 
 
 
