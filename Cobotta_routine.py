@@ -159,14 +159,14 @@ class COBOTTA_ROUTINE:
                 self.kit.stepper1.onestep(direction=stepper.BACKWARD)
             
 
-    def __del__(self):
+    def __del__(self, I90_access):
         # finish script on cobotta
         I90 = 0   # new value
-        I90_access = self.get_variable_handler("I90")
         self.client.variable_putvalue(I90_access, I90) # write I90 value
-
+        logging.info("I90 = 0")
         self.client.variable_release(I90_access) # close connection
         self.client.service_stop() # stop bcapclient
+        logging.info("stoped client")
 
         self.kit.stepper1.release()
 
