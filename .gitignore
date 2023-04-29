@@ -1,5 +1,6 @@
 # Untracked files:
 Images/
+env/
 app.log
 __pycache__/
 pybcapclient/__pycache__/
