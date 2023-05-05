@@ -12,7 +12,7 @@ from adafruit_motorkit import MotorKit  # library for motor control board
 from adafruit_motor import stepper
 
 import logging
-logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='test.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 import cv2
 import os
 import numpy as np
@@ -165,6 +165,8 @@ class COBOTTA_ROUTINE:
         self.client.variable_putvalue(I90_access, I90) # write I90 value
         logging.info("I90 = 0")
         self.client.variable_release(I90_access) # close connection
+        self.client.controller_disconnect()
+        
         self.client.service_stop() # stop bcapclient
         logging.info("stoped client")
 
