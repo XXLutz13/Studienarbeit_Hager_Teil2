@@ -170,14 +170,15 @@ def start_routine():
                 new_coords = point
                 backend.write_value(P90_access, new_coords)    # write new coordinate
 
-                # acctivate script on cobotta
+                # activate script on cobotta
                 I90 = 1   # new value
                 backend.write_value(I90_access, I90) # write I90 value
 
                 ready = 0
                 # wait for robot to set I91
                 ready = polling2.poll(
-                            backend.read_value(I91_access),
+                            backend.read_value,
+                            args=(I91_access,),
                             step=0.1,
                             timeout=10)
                 print(ready)
