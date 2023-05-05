@@ -206,22 +206,17 @@ def start_routine():
             cords.reverse()
             print("reversed cords")
 
-        global routine_active
-        routine_active = False
-        global active
-        active = False
-        backend.close(I90_access)
-        print("Finished")
-        return "Finished"
-
     except:
-        routine_active = False
-        active = False
-        backend.__del__(I90_access)
         flash("routine error", category="error")
-        return "Failed"
 
-
+    global routine_active
+    routine_active = False
+    global active
+    active = False
+    backend.close(I90_access)
+    del backend
+    print("Finished")
+    return "Finished"
 
 if __name__ == '__main__':
 
