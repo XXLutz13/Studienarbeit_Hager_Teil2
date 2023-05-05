@@ -207,7 +207,8 @@ def start_routine():
             print("reversed cords")
 
     except:
-        flash("routine error", category="error")
+        #flash("routine error", category="error")
+        pass
 
     global routine_active
     routine_active = False
