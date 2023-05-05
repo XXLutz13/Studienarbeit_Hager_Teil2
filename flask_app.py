@@ -3,6 +3,7 @@ from flask_sock import Sock
 import json
 import time
 import threading
+import polling2
 import secrets
 import base64
 import cv2
@@ -174,9 +175,14 @@ def start_routine():
 
                 ready = 0
                 # wait for robot to set I91
-                while not ready:
-                    ready = backend.read_value(I91_access)  # read I91
-                    time.sleep(0.1)
+                ready = polling2.poll(
+                            backend.read_value(I91_access) == 1,
+                            step=0.1,
+                            timeout=10)
+                print(ready)
+                # while not ready:
+                #     ready = backend.read_value(I91_access)  # read I91
+                #     time.sleep(0.1)
 
                 # capturing image
                 try:
