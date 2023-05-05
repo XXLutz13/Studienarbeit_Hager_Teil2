@@ -176,14 +176,14 @@ def start_routine():
 
                 ready = 0
                 # wait for robot to set I91
-                # ready = polling2.poll(
-                #             backend.read_value(I91_access) == 1,
-                #             step=0.1,
-                #             timeout=10)
-                # print(ready)
-                while not ready:
-                    ready = backend.read_value(I91_access)  # read I91
-                    time.sleep(0.1)
+                ready = polling2.poll(
+                            backend.read_value(I91_access),
+                            step=0.1,
+                            timeout=10)
+                print(ready)
+                # while not ready:
+                #     ready = backend.read_value(I91_access)  # read I91
+                #     time.sleep(0.1)
 
                 # capturing image
                 try:
