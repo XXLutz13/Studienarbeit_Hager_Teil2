@@ -159,7 +159,7 @@ class COBOTTA_ROUTINE:
                 self.kit.stepper1.onestep(direction=stepper.BACKWARD)
             
 
-    def __del__(self, I90_access):
+    def close(self, I90_access):
         # finish script on cobotta
         I90 = 0   # new value
         self.client.variable_putvalue(I90_access, I90) # write I90 value

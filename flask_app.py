@@ -210,7 +210,8 @@ def start_routine():
         routine_active = False
         global active
         active = False
-        backend.__del__(I90_access)
+        backend.close(I90_access)
+        del backend
         print("Finished")
         return "Finished"
 
