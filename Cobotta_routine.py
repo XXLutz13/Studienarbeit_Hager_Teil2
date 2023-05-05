@@ -12,7 +12,7 @@ from adafruit_motorkit import MotorKit  # library for motor control board
 from adafruit_motor import stepper
 
 import logging
-logging.basicConfig(filename='app2.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 import cv2
 import os
 import numpy as np
