@@ -77,11 +77,10 @@ def running():
     global routine_active
     if not routine_active:
     # start backend routine
-        # routine_active = True
-        # routine = threading.Thread(target=start_routine)
-        # routine.daemon = True
-        # routine.start()
-        start_routine()
+        routine_active = True
+        routine = threading.Thread(target=start_routine)
+        routine.daemon = True
+        routine.start()
 
     return render_template('running.html')  
 
@@ -174,17 +173,12 @@ def start_routine():
                 I90 = 1   # new value
                 backend.write_value(I90_access, I90) # write I90 value
 
-                ready = 0
                 # wait for robot to set I91
-                ready = polling2.poll(
-                            backend.read_value,
-                            args=(I91_access,),
-                            step=0.1,
-                            timeout=10)
-                print(ready)
-                # while not ready:
-                #     ready = backend.read_value(I91_access)  # read I91
-                #     time.sleep(0.1)
+                polling2.poll(
+                    backend.read_value,
+                    args=(I91_access,),
+                    step=0.1,
+                    timeout=10)
 
                 # capturing image
                 try:
