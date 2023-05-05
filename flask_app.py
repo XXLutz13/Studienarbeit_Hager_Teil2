@@ -220,6 +220,11 @@ def start_routine():
         return "Finished"
 
     except:
+        global routine_active
+        routine_active = False
+        global active
+        active = False
+        backend.__del__(I90_access)
         flash("routine error", category="error")
         return "Failed"
 
