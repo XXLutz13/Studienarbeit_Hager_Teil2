@@ -211,7 +211,6 @@ def start_routine():
         global active
         active = False
         backend.close(I90_access)
-        del backend
         print("Finished")
         return "Finished"
 
