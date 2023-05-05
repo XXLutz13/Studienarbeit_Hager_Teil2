@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, make_response, send_file, redirect, url_for, current_app
+from flask import Flask, render_template, flash, request, redirect, url_for, current_app
 from flask_sock import Sock
 import json
 import time
