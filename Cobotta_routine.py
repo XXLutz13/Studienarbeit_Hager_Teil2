@@ -165,7 +165,7 @@ class COBOTTA_ROUTINE:
         self.client.variable_putvalue(I90_access, I90) # write I90 value
         logging.info("I90 = 0")
         self.client.variable_release(I90_access) # close connection
-        self.client.controller_disconnect()
+        self.client.controller_disconnect(self.RC8)
         
         self.client.service_stop() # stop bcapclient
         logging.info("stoped client")
