@@ -77,11 +77,11 @@ def running():
     global routine_active
     if not routine_active:
     # start backend routine
-        routine_active = True
-        routine = threading.Thread(target=start_routine)
-        routine.daemon = True
-        routine.start()
-        # start_routine()
+        # routine_active = True
+        # routine = threading.Thread(target=start_routine)
+        # routine.daemon = True
+        # routine.start()
+        start_routine()
 
     return render_template('running.html')  
 
