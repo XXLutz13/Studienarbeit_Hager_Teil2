@@ -21,10 +21,5 @@ socket_progress.addEventListener('message', ev => {
     }
     else {
         success.style.display = 'none'; // hide the section
-        // close Websockets
-        socket_progress.send("stop");
-        socket_img.send("stop");
-        ev.target.disabled = true;
     }
 });
-

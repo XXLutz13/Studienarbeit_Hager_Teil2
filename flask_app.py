@@ -16,11 +16,11 @@ app.secret_key = secrets.token_hex(16)
 app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
 
 # create websocket
-sock_img = Sock(app)
+sock = Sock(app)
 sock_progress = Sock(app)
 
 # global variables
-client_list_img = []
+client_list = []
 client_list_progress = []
 dataLabel = ""
 numImages = 0
@@ -89,31 +89,36 @@ def running():
 #----------------------------------------------------------------------------------------------------------------
 #   websocket for sending image 
 #----------------------------------------------------------------------------------------------------------------
-@sock_img.route('/image')
-def image(ws):
-    client_list_img.append(ws)
+@sock.route('/image')
+def clock(ws):
+    client_list.append(ws)
     while True:
         data = ws.receive()
         if data == 'stop':
             break
-    client_list_img.remove(ws)
+    client_list.remove(ws)
 
 def send_img(image):
-    clients = client_list_img.copy()
-    # Encode the image data as base64
-    # Convert the image to base64 string
-    retval, buffer = cv2.imencode('.png',image)  
-    png_as_text = base64.b64encode(buffer).decode('utf-8')
-    # Generate a data URL for the image
-    data_url = f"data:image/png;base64,{png_as_text}"
+    clients = client_list.copy()
     for client in clients:
         try:
             # with app.app_context():
             #     root_path = current_app.root_path
+
+            # # Load the image data
+            # image = open(os.path.join(root_path, 'Test_green.png'), "rb").read()
+            # Encode the image data as base64
+            # Convert the image to base64 string
+            retval, buffer = cv2.imencode('.png',image)  
+            png_as_text = base64.b64encode(buffer).decode('utf-8')
+            # image_base64 = base64.b64encode(image).decode('ascii')
+            # Generate a data URL for the image
+            data_url = f"data:image/png;base64,{png_as_text}"
+
             client.send(json.dumps({'img_src': data_url}))
         except:
             print("failed to send img src")
-            client_list_img.remove(client)
+            client_list.remove(client)
 
 #----------------------------------------------------------------------------------------------------------------
 #   websocket for sending routine progress 
