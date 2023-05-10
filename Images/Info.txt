@@ -1,5 +1,0 @@
-ALl images folow this naming convention:
-
-'Date_Objectname.png'
-
-Date Formate: 'YYYYMMDD_hh:mm:ss'
