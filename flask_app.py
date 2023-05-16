@@ -42,9 +42,9 @@ def index():
         if not dataLabel:
             print('Label is required!')
             flash('Label is required!', category="error")
-        # elif not numImages:
-        #     print('Number of images is required!')
-        #     flash('Number of images is required!', category="error")
+        elif not numImages:
+            print('Number of images is required!')
+            flash('Number of images is required!', category="error")
         else:  
             print(dataLabel)
             print(numImages)
@@ -207,6 +207,8 @@ def start_routine():
     routine_active = False
     global active
     active = False
+    global headerLink
+    headerLink = 'index'    # nesseccary?
     backend.close(I90_access)
     del backend
     print("Finished")
