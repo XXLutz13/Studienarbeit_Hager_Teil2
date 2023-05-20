@@ -18,12 +18,12 @@ socket_progress.addEventListener('message', ev => {
     var success = document.getElementById('wrapper-success')
     if (msg.progress.includes('100')){
         success.style.display = 'block'; // show the section
+        // close Websockets
+        socket_progress.send("stop");
+        socket_img.send("stop");
+        ev.target.disabled = true;
     }
     else {
         success.style.display = 'none'; // hide the section
-        // close Websockets
-        // socket_progress.send("stop");
-        // socket_img.send("stop");
-        // ev.target.disabled = true;
     }
 });

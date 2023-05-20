@@ -160,7 +160,7 @@ def start_routine():
             for point in cords:
                 
                 new_coords = point
-                print(new_coords)
+                # print(new_coords)
                 backend.write_value(P90_access, new_coords)    # write new coordinate
 
                 # activate script on cobotta
