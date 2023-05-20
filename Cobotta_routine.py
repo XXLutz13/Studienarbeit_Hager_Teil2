@@ -194,7 +194,7 @@ def coordinates(num_images, center):
     X = [center[0]]*spacing
     Y = center[1] - R * np.cos(phi)
     Z = center[2] + R * np.sin(phi)
-    rx = np.linspace(180, 90, 24)
+    rx = np.linspace(1.15*90, 180, spacing)
     ry = [0]*spacing
     rz = [0]*spacing
     num_steps = [50]*8
