@@ -203,6 +203,7 @@ def start_routine():
     except:
         #flash("routine error", category="error")
         print('Error in Routine')
+        return "Error"
         
     global routine_active
     routine_active = False
