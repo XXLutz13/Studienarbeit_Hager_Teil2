@@ -160,6 +160,7 @@ def start_routine():
             for point in cords:
                 
                 new_coords = point
+                print(new_coords)
                 backend.write_value(P90_access, new_coords)    # write new coordinate
 
                 # activate script on cobotta
@@ -201,8 +202,8 @@ def start_routine():
 
     except:
         #flash("routine error", category="error")
-        pass
-
+        print('Error in Routine')
+        
     global routine_active
     routine_active = False
     global active
