@@ -165,6 +165,10 @@ def start_routine():
                 # I90 = 1   # new value
                 # backend.write_value(I90_access, I90) # write I90 value
 
+                # move Cobotta to new position
+                # Pose = 
+                # backend.moveRobot()
+
                 # wait for robot to set I91
                 polling2.poll(
                     backend.read_value,
