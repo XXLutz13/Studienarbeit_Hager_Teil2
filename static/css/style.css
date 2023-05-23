@@ -101,7 +101,8 @@ a:hover {
 }
 
 .module-border-wrap {
-    width: 450px;
+    width: 576px;
+    height: 324px;
     padding: 1rem;
     position: relative;
     background: linear-gradient(to right, #c0392b, #8e44ad);
