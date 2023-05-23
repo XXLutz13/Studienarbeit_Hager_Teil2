@@ -131,6 +131,7 @@ class COBOTTA_ROUTINE:
 
     #---------------------------------------------------------------------
     #   moving robot 
+    #   Atributes: Pose of robot 
     #---------------------------------------------------------------------
     def moveRobot(self, Pose):
         try:
@@ -144,7 +145,7 @@ class COBOTTA_ROUTINE:
             raise RuntimeError("failed to move robot") 
 
 
-    #--------------------------------------------------------------implement--------------------------------------------------
+    #----------------------------------------------------------------------------------------------------------------
     #   cobotta camera class
     #   Atributes: client = Cobotta connection
     #              IP = camera IP-adress
@@ -214,7 +215,7 @@ class COBOTTA_ROUTINE:
         self.kit.stepper1.release()
 
         logging.info("service stoped!")
-        logging.Handler.close
+        # logging.Handler.close
 
 
 

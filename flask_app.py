@@ -9,6 +9,7 @@ import base64
 import cv2
 import os
 from Cobotta_routine import COBOTTA_ROUTINE
+from mqtt import MQTT_CONNECTION
 
 # create flask app
 app = Flask(__name__)
