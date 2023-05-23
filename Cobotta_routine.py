@@ -43,7 +43,7 @@ class COBOTTA_ROUTINE:
             cls.kit = MotorKit() 
 
             # establish Cobotta connection
-            cls.client, cls.RC8 = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '10.50.12.87')
+            cls.client, cls.RC8, cls.HRobot = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '10.50.12.87')
             # open camera connection
             cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
 
@@ -84,13 +84,26 @@ class COBOTTA_ROUTINE:
             # Connect to RC8 (RC8(VRC)provider)
             RC8 = client.controller_connect(Name, Provider, Machine, Option)
 
+            HRobot = client.controller_getrobot(RC8, "Arm", "")
+
+            # TakeArm
+            Command = "TakeArm"
+            Param = [0, 0]
+            client.robot_execute(HRobot, Command, Param)
+
+            # Motor On
+            Command = "Motor"
+            Param = [1, 0]
+            client.robot_execute(HRobot, Command, Param)
+
             logging.info("Cobotta connected")
-            return client, RC8
+            return client, RC8, HRobot
             
         except:
             logging.error("can't connect to Cobotta")
             raise RuntimeError("can't connect to Cobotta")
-        
+
+
 
     def get_variable_handler(self, id):
         try:
@@ -114,6 +127,7 @@ class COBOTTA_ROUTINE:
         except:
             logging.error("faild to read value")
             raise RuntimeError("faild to read value")
+
 
     #----------------------------------------------------------------------------------------------------------------
     #   cobotta camera class
@@ -148,7 +162,7 @@ class COBOTTA_ROUTINE:
             except:
                 logging.error("faild to capture image")
                 raise RuntimeError("faild to capture image")
-            
+
 
     # moves stepper motor
     def stepper_worker(self, numsteps, direction):
@@ -159,22 +173,33 @@ class COBOTTA_ROUTINE:
                 self.kit.stepper1.onestep(direction=stepper.BACKWARD)
             
 
-    def close(self, I90_access):
-        # finish script on cobotta
-        I90 = 0   # new value
-        self.client.variable_putvalue(I90_access, I90) # write I90 value
-        logging.info("I90 = 0")
-        self.client.variable_release(I90_access) # close connection
-        self.client.controller_disconnect(self.RC8)
-        
-        self.client.service_stop() # stop bcapclient
+    #---------------------------------------------------------------------
+    #   closing robot connection
+    #---------------------------------------------------------------------
+    def close(self):
+        # Motor Off
+        Command = "Motor"
+        Param = [0, 0]
+        self.client.robot_execute(self.HRobot, Command, Param)
+
+        # Give Arm
+        Command = "GiveArm"
+        Param = None
+        self.client.robot_execute(self.HRobot, Command, Param)
+
+        # Disconnect
+        if(self.HRobot != 0):
+            self.client.robot_release(self.HRobot)
+        if(self.RC8 != 0):
+            self.client.controller_disconnect(self.RC8)
+
+        self.client.service_stop()
         logging.info("stoped client")
 
         self.kit.stepper1.release()
 
         logging.info("service stoped!")
         logging.Handler.close
-
 
 
 
@@ -185,7 +210,6 @@ class COBOTTA_ROUTINE:
 #            number of motor stepps: num_steps
 #----------------------------------------------------------------------------------------------------------------
 def coordinates(num_images, center):
-
     R = 80
     spacing = num_images//8
 
@@ -209,6 +233,7 @@ def coordinates(num_images, center):
     
     return cords, num_steps
 
+
 # converts Cobotta image to usable numpy formate 
 def convert_image(img):
     np_img = np.frombuffer(img , dtype=np.uint8)
@@ -222,6 +247,7 @@ def convert_image(img):
     resized = cv2.resize(cv_image, dim, interpolation = cv2.INTER_AREA)
 
     return resized
+
 
 # creates a new directory on the external hard drive
 def createDirectory(name):
