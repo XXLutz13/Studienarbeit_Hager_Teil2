@@ -129,7 +129,22 @@ class COBOTTA_ROUTINE:
             raise RuntimeError("faild to read value")
 
 
-    #----------------------------------------------------------------------------------------------------------------
+    #---------------------------------------------------------------------
+    #   moving robot 
+    #---------------------------------------------------------------------
+    def moveRobot(self, Pose):
+        try:
+            # PoseData (array [Index , Variavletype , Pass])
+            Comp = 1
+            # Pose = [2, "P", "@90"]
+            self.client.robot_move(self.HRobot, Comp, Pose, "")
+            logging.info(f"moved robot to {str(Pose)}")
+        except:
+            logging.error("failed to move robot")
+            raise RuntimeError("failed to move robot") 
+
+
+    #--------------------------------------------------------------implement--------------------------------------------------
     #   cobotta camera class
     #   Atributes: client = Cobotta connection
     #              IP = camera IP-adress
