@@ -26,7 +26,6 @@ client_list_progress = []
 dataLabel = ""
 numImages = 0
 headerLink = 'index'
-active = False
 routine_active = False
 
 #----------------------------------------------------------------------------------------------------------------
@@ -49,11 +48,10 @@ def index():
         else:  
             print(dataLabel)
             print(numImages)
-            global active
-            active = True
             return redirect(url_for('running'))
-            
-    if active:
+        
+    global routine_active       
+    if routine_active:
         return redirect(url_for('running'))
     else:
         return render_template('index.html')
@@ -74,10 +72,10 @@ def about():
 def running():
     global headerLink
     headerLink = 'running'
-    # if finished -> index + headerLink = "index"
+
     global routine_active
     if not routine_active:
-    # start backend routine
+        # start backend routine
         routine_active = True
         routine = threading.Thread(target=start_routine)
         routine.daemon = True
@@ -136,6 +134,7 @@ def send_progress(progress):
             client_list_progress.remove(client)
 
 
+
 #----------------------------------------------------------------------------------------------------------------
 #   main routine function
 #   return val: Finished / Failed
@@ -147,8 +146,6 @@ def start_routine():
     try:
         backend, cords, motorStepps, cam = COBOTTA_ROUTINE(dataLabel, numImages)
         # initialize variable access handlers 
-        I90_access = backend.get_variable_handler("I90")    # Object for variable access
-        I91_access = backend.get_variable_handler("I91")    # Object for variable access
         P90_access = backend.get_variable_handler("P90")    # Object to post new Coordinates
         print("initialized backend")
     except:
@@ -164,9 +161,9 @@ def start_routine():
                 # print(new_coords)
                 backend.write_value(P90_access, new_coords)    # write new coordinate
 
-                # activate script on cobotta
-                I90 = 1   # new value
-                backend.write_value(I90_access, I90) # write I90 value
+                # # activate script on cobotta
+                # I90 = 1   # new value
+                # backend.write_value(I90_access, I90) # write I90 value
 
                 # wait for robot to set I91
                 polling2.poll(
@@ -188,9 +185,9 @@ def start_routine():
                 print(progress)
                 send_progress(progress=progress)
 
-                # finish script on cobotta
-                I90 = 0   # new value
-                backend.write_value(I90_access, I90) # write I90 value
+                # # finish script on cobotta
+                # I90 = 0   # new value
+                # backend.write_value(I90_access, I90) # write I90 value
 
             try:
                 backend.stepper_worker(motorStepps[rotation], 'FORWARD')   # move stepper motor 
@@ -208,11 +205,9 @@ def start_routine():
         
     global routine_active
     routine_active = False
-    global active
-    active = False
     global headerLink
     headerLink = 'index'    # nesseccary?
-    backend.close(I90_access)
+    backend.close()
     del backend
     print("Finished")
     return "Finished"
