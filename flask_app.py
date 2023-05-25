@@ -42,7 +42,7 @@ def index():
         if not dataLabel:
             print('Label is required!')
             flash('Label is required!', category="error")
-        elif not numImages:
+        if not numImages:
             print('Number of images is required!')
             flash('Number of images is required!', category="error")
         else:  
