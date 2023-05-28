@@ -86,22 +86,22 @@ m_bcapclient.robot_execute(HRobot, Command, Param)
 print("ExtSpeed")
 
 
+#---------------------------------------------------------------------
+#   moving robot 
+#---------------------------------------------------------------------
 try:
-    #---------------------------------------------------------------------
-    #   moving robot 
-    #---------------------------------------------------------------------
-    # Move Initialize Position
-    # Comp = 1
-    # Pos_value = [0.0, 0.0, 90.0, 0.0, 90.0, 0.0]
-    # Pose = [Pos_value, "P", "@E"]
-    # m_bcapclient.robot_move(HRobot, Comp, Pose, "")
-    # print("Complete Move P,@E J(0.0, 0.0, 90.0, 0.0, 90.0, 0.0)")
-
-    # Interpolation
     # Comp = 1
     # Pose = "P90"
-    m_bcapclient.robot_move(HRobot, 1, "P90", "NEXT")
+    m_bcapclient.robot_move(HRobot, 1, "P90", "NEXT")   # nect weglassen? weil des für asynchrone Bewegung ist? P90 falsch -> "@P P90"
     print("Complete Move P90")
+except:
+    print("Failed to move robot")
+
+try:
+    Comp = 1
+    position_Value = [190.0,-22.0,180.0,145.0,0.0,0.0,261]
+    Pose = [position_Value,"P","@E"]                    # @E falsch?
+    m_bcapclient.robot_move(HRobot,Comp,Pose,"")
 except:
     print("Failed to move robot")
 
