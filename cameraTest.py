@@ -50,10 +50,14 @@ class CAMERA:
     def OneShot(self, name):
         try:
             # take and export image from Canon camera 
+            self.client.controller_execute(self.camera_handler, 'SetParameter', ['EXPOSURE','manual'])
+            print('exposure manuel')
+            self.client.controller_execute(self.camera_handler, 'SetParameter', ['GAIN',8])
+            print('exposure set')
             self.client.controller_execute(self.camera_handler, 'OneShotFocus', '')
             image_buff = self.client.variable_getvalue(self.variable_handler)
 
-            cv_image = convert_image(image_buff)    # -> check img formate -> if usable byte, then directly encode to base64 
+            cv_image = convert_image(image_buff)   
             # save image to file
             cv2.imwrite(f'ImageProcessing\{name}.png', cv_image)
             print(f'saved image: {name}')
