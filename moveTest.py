@@ -2,7 +2,7 @@ import pybcapclient.bcapclient as bcapclient    # Denso library for Cobotta acce
 import numpy as np
 
 def coordinates(num_images, center):
-    R = 100
+    R = 109
     spacing = num_images//8
 
     # phi = np.linspace(0, 0.5 * np.pi, spacing)
@@ -10,7 +10,7 @@ def coordinates(num_images, center):
     X = [center[0]]*spacing
     Y = center[1] - R * np.cos(phi)
     Z = center[2] + R * np.sin(phi)
-    rx = np.linspace(1.15*90, 180, spacing)
+    rx = np.linspace(1.15*90, 168, spacing)
     ry = [0]*spacing
     rz = [0]*spacing
     num_steps = [50]*8
@@ -67,12 +67,6 @@ Param = [1, 0]
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("Motor On")
 
-# calculate arrays with roboter coordinates
-Objekt_cords = [190, -40, 120]
-cords, motorStepps = coordinates(40, Objekt_cords) 
-value = cords[0]
-# print(cords[0])
-
 # P90_handler = m_bcapclient.controller_getvariable(RC8, id, "P90")
 # m_bcapclient.variable_putvalue(P90_handler, value)
 
@@ -92,14 +86,38 @@ print("ExtSpeed")
 try:
     # Comp = 1
     # position_Value = [190.0,35.0,146.3192,103.5,0.0,0.0]  # funktioniert
-    position_Value = [190.0,49.1007,165.399,103.5,0.0,0.0]
+    position_Value = [190, -40.0, 230.0, 168, 0, 0]
 
-    Pose = [position_Value,"P","@E"]
-    m_bcapclient.robot_move(HRobot, 1, Pose, "") 
+    # Pose = [position_Value,"P","@E"]
+    # m_bcapclient.robot_move(HRobot, 1, Pose, "") 
+    # print("Complete Move 1")
 
-    print("Complete Move P90")
 except:
     print("Failed to move robot")
+
+def tryRoutine():
+    # calculate arrays with roboter coordinates
+    Objekt_cords = [190, -40, 120]
+    cords, motorStepps = coordinates(40, Objekt_cords) 
+    for rotation in range(8):
+        for point in cords:
+            
+            print(point)
+            try:
+                Pose = [point,"P","@E"]
+                m_bcapclient.robot_move(HRobot, 1, Pose, "") 
+            except:
+                print("Failed to move robot")
+
+        try:
+            print("move stepper")   # move stepper motor 
+        except:
+            print("Failed to move stepper")
+        
+        cords.reverse()
+        print("reversed cords")
+
+tryRoutine()
 
 #---------------------------------------------------------------------
 #   closing robot connection

@@ -157,24 +157,11 @@ def start_routine():
         for rotation in range(8):
             for point in cords:
                 
-                new_coords = point
-                # print(new_coords)
-                backend.write_value(P90_access, new_coords)    # write new coordinate
-
-                # # activate script on cobotta
-                # I90 = 1   # new value
-                # backend.write_value(I90_access, I90) # write I90 value
-
-                # move Cobotta to new position
-                # Pose = 
-                # backend.moveRobot()
-
-                # wait for robot to set I91
-                polling2.poll(
-                    backend.read_value,
-                    args=(I91_access,),
-                    step=0.1,
-                    timeout=10)
+                # moving robot
+                try:
+                    backend.moveRobot(point=point)
+                except:
+                    print("Failed to move robot")
 
                 # capturing image
                 try:
@@ -188,10 +175,6 @@ def start_routine():
                 progress = f"{(img_counter/numImages)*100}%"
                 print(progress)
                 send_progress(progress=progress)
-
-                # # finish script on cobotta
-                # I90 = 0   # new value
-                # backend.write_value(I90_access, I90) # write I90 value
 
             try:
                 backend.stepper_worker(motorStepps[rotation], 'FORWARD')   # move stepper motor 
