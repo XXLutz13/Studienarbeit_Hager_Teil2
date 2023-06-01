@@ -133,12 +133,10 @@ class COBOTTA_ROUTINE:
     #   moving robot 
     #   Atributes: Pose of robot 
     #---------------------------------------------------------------------
-    def moveRobot(self, Pose):
+    def moveRobot(self, point):
         try:
-            # PoseData (array [Index , Variavletype , Pass])
-            Comp = 1
-            # Pose = [2, "P", "@90"]
-            self.client.robot_move(self.HRobot, Comp, Pose, "")
+            Pose = [point,"P","@E"]
+            self.client.robot_move(self.HRobot, 1, Pose, "") 
             logging.info(f"moved robot to {str(Pose)}")
         except:
             logging.error("failed to move robot")
