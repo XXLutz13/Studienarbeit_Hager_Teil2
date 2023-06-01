@@ -5,7 +5,9 @@ from datetime import datetime
 import os
 
 # set IP Address , Port number and Timeout of connected RC8
+# host = '192.168.0.1'
 host = '10.50.12.87'
+
 port = 5007
 timeout = 2000
 
@@ -50,9 +52,11 @@ class CAMERA:
     def OneShot(self, name):
         try:
             # take and export image from Canon camera 
-            self.client.controller_execute(self.camera_handler, 'SetParameter', ['EXPOSURE','manual'])
+            # self.client.controller_execute(self.camera_handler, 'SetParameter', ['EXPOSURE','manual'])
+            # , 'OneShotFocus', ''
+            # , 'SetParameter', ['EXPOSURE','manual']
             print('exposure manuel')
-            self.client.controller_execute(self.camera_handler, 'SetParameter', ['GAIN',8])
+            # self.client.controller_execute(self.camera_handler, 'SetParameter', ['GAIN',8])
             print('exposure set')
             self.client.controller_execute(self.camera_handler, 'OneShotFocus', '')
             image_buff = self.client.variable_getvalue(self.variable_handler)
@@ -80,6 +84,8 @@ def convert_image(img):
 
     return resized
 
+# cam = CAMERA(client, '192.168.0.90')
 cam = CAMERA(client, '10.50.12.88')
-cam.OneShot('TestCompressedImg')
+
+cam.OneShot('Test2')
 

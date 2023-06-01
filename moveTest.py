@@ -2,7 +2,7 @@ import pybcapclient.bcapclient as bcapclient    # Denso library for Cobotta acce
 import numpy as np
 
 def coordinates(num_images, center):
-    R = 80
+    R = 100
     spacing = num_images//8
 
     # phi = np.linspace(0, 0.5 * np.pi, spacing)
@@ -24,7 +24,7 @@ def coordinates(num_images, center):
     cords = list(zip(X, Y, Z, rx, ry, rz))
     # Round every element in the list of tuples using list comprehension and round()
     cords = [(round(a, 4), round(b, 4), round(c, 4), round(d, 4), round(e, 4), round(f, 4)) for a,b,c,d,e,f in cords]
-    
+    print(cords[0])
     return cords, num_steps
 
 
@@ -68,7 +68,7 @@ m_bcapclient.robot_execute(HRobot, Command, Param)
 print("Motor On")
 
 # calculate arrays with roboter coordinates
-Objekt_cords = [190, -40, 110]
+Objekt_cords = [190, -40, 120]
 cords, motorStepps = coordinates(40, Objekt_cords) 
 value = cords[0]
 # print(cords[0])
@@ -91,17 +91,13 @@ print("ExtSpeed")
 #---------------------------------------------------------------------
 try:
     # Comp = 1
-    # Pose = "P90"
-    m_bcapclient.robot_move(HRobot, 1, "P90", "NEXT")   # nect weglassen? weil des für asynchrone Bewegung ist? P90 falsch -> "@P P90"
-    print("Complete Move P90")
-except:
-    print("Failed to move robot")
+    # position_Value = [190.0,35.0,146.3192,103.5,0.0,0.0]  # funktioniert
+    position_Value = [190.0,49.1007,165.399,103.5,0.0,0.0]
 
-try:
-    Comp = 1
-    position_Value = [190.0,-22.0,180.0,145.0,0.0,0.0,261]
-    Pose = [position_Value,"P","@E"]                    # @E falsch?
-    m_bcapclient.robot_move(HRobot,Comp,Pose,"")
+    Pose = [position_Value,"P","@E"]
+    m_bcapclient.robot_move(HRobot, 1, Pose, "") 
+
+    print("Complete Move P90")
 except:
     print("Failed to move robot")
 
