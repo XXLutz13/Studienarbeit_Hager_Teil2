@@ -43,12 +43,12 @@ class COBOTTA_ROUTINE:
             cls.kit = MotorKit() 
 
             # establish Cobotta connection
-            cls.client, cls.RC8, cls.HRobot = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '10.50.12.87')
+            cls.client, cls.RC8, cls.HRobot = COBOTTA_ROUTINE.connect_Cobotta(cls._instance, '192.168.0.1')
             # open camera connection
-            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='10.50.12.88')
+            cls.CAM =COBOTTA_ROUTINE.CAMERA(client=cls.client, IP='192.168.0.90')
 
             # calculate arrays with roboter coordinates
-            Objekt_cords = [190, -40, 110]
+            Objekt_cords = [190, -40, 120]
             cls.cords, cls.motorStepps = coordinates(cls.num_images, Objekt_cords) 
 
             logging.info("created COBOTTA_ROUTINE object")
@@ -224,7 +224,7 @@ class COBOTTA_ROUTINE:
 #            number of motor stepps: num_steps
 #----------------------------------------------------------------------------------------------------------------
 def coordinates(num_images, center):
-    R = 80
+    R = 109
     spacing = num_images//8
 
     # phi = np.linspace(0, 0.5 * np.pi, spacing)
@@ -232,7 +232,7 @@ def coordinates(num_images, center):
     X = [center[0]]*spacing
     Y = center[1] - R * np.cos(phi)
     Z = center[2] + R * np.sin(phi)
-    rx = np.linspace(1.15*90, 180, spacing)
+    rx = np.linspace(1.15*90, 168, spacing)
     ry = [0]*spacing
     rz = [0]*spacing
     num_steps = [50]*8
