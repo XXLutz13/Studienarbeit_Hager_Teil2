@@ -96,6 +96,14 @@ class COBOTTA_ROUTINE:
             Param = [1, 0]
             client.robot_execute(HRobot, Command, Param)
 
+            # set ExtSpeed Speed,Accel,Decel
+            Command = "ExtSpeed"
+            Speed = 100
+            Accel = 100
+            Decel = 100
+            Param = [Speed, Accel, Decel]
+            client.robot_execute(HRobot, Command, Param)
+
             logging.info("Cobotta connected")
             return client, RC8, HRobot
             
