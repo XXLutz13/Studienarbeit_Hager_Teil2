@@ -184,6 +184,7 @@ def start_routine():
 
             cords.reverse()
             print("reversed cords")
+        send_progress(progress="100.0%")
 
     except:
         #flash("routine error", category="error")

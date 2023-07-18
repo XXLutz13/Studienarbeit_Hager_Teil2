@@ -177,7 +177,7 @@ class COBOTTA_ROUTINE:
 
                 cv_image = convert_image(image_buff)    # -> check img formate -> if usable byte, then directly encode to base64 
                 # save image to file
-                image_name = f'{name}{datetime.now().strftime("%Y%m%d_%H:%M:%S")}.png'
+                image_name = f'{name}{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.png'
                 img_path = os.path.join(COBOTTA_ROUTINE.path, image_name)
                 cv2.imwrite(img_path, cv_image)
                 return cv_image
@@ -274,7 +274,7 @@ def convert_image(img):
 # creates a new directory on the external hard drive
 def createDirectory(name):
     parent_dir  = '/exdisk'
-    directory = name + str(datetime.now().strftime("%Y%m%d_%H:%M:%S"))
+    directory = name + str(datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
     path = os.path.join(parent_dir, directory)
     os.mkdir(path)
     print("Directory '% s' created" % directory)
